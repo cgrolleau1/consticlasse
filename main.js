@@ -217,6 +217,24 @@ function trierEleves(numclasse) {
   
 }
 
+function interactionEleves(type) {
+  let selectedList = $('.selected')
+  let i,j, linkedList;
+  for (i=0; i<selectedList.length; i++) {
+    linkedList = '';
+    for (j=0; j<selectedList.length ; j++) {
+      if (i!==j) {
+         linkedList = linkedList + '¤' + $(selectedList[j]).attr('id');
+      }
+    }
+    if (type === 'lier') {
+      $(selectedList[i]).attr('data-linked',linkedList);
+    }
+    if (type === 'separer') {
+      $(selectedList[i]).attr('data-linked',linkedList);
+    }
+  }
+}
 
 $("#FilterOption").change(function(){
 		if($("#FilterOption").val() == "NoFilter") {
@@ -271,10 +289,24 @@ $("#attfiltremoteurs").change(function(){
 //**********Sélection de plusieurs élèves*********
 
 function selectEleve(elem) {
-	if(elem.hasClass('selected')) {
-		elem.removeClass('selected');
+	let listeLies
+  if (elem.attr('data-linked')) {
+      listeLies = elem.attr('data-linked').split('¤')
+  }
+  if(elem.hasClass('selected')) {
+		if (listeLies) {
+      for (let i =0; i<listeLies.length ; i++) {
+        $('#'+listeLies[i]).removeClass('selected')
+      }
+    }
+    elem.removeClass('selected');
 	} else {
-		elem.addClass('selected');
+    if (listeLies) {
+      for (let i =0; i<listeLies.length ; i++) {
+        $('#'+listeLies[i]).addClass('selected')
+      }
+    }
+    elem.addClass('selected');
 	}
 }
 
