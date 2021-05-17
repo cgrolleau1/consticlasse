@@ -13,6 +13,9 @@
 		font-size:small;
 		border:1px solid #aaaaaa;
 	}
+  .nom_init {
+    font-size:large;
+  }
 	.classe {
 		float:left;
 		width:150px; 
@@ -37,6 +40,10 @@
 	.addButton {
 		border:1px solid white;
 	}
+  .triButton {
+    width: 20px;
+    height: 30px;
+  }
 	.addButton:hover {
 		border:1px solid #d6bcd6;
 	}
