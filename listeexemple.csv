@@ -1,0 +1,111 @@
+nom,prenom,sexe,classe,opt,LV2,attitude,resultats
+Nom1,prenom1,F,5eme1,,ESP,,
+Nom2,prenom2,G,5eme1,,,,
+Nom3,prenom3,G,5eme1,,ESP,,
+Nom4,prenom4,G,5eme1,,ANGL,,
+Nom5,prenom5,F,5eme1,Latin,ALL,,
+Nom6,prenom6,G,5eme1,,ALL,,
+Nom7,prenom7,G,5eme1,,ESP,Agite,
+Nom8,prenom8,F,5eme1,,ANGL,,
+Nom9,prenom9,F,5eme1,Latin,ESP,Moteur,
+Nom10,prenom10,G,5eme1,,ESP,,
+Nom11,prenom11,F,5eme1,Latin,ESP,,
+Nom12,prenom12,F,5eme1,,,,+
+Nom13,prenom13,F,5eme1,Latin,ANGL,,+
+Nom14,prenom14,G,5eme1,Latin,ESP,,+
+Nom15,prenom15,G,5eme1,,ESP,,-
+Nom16,prenom16,F,5eme1,,ESP,,-
+Nom17,prenom17,F,5eme1,Latin,ALL,,-
+Nom18,prenom18,G,5eme1,Latin,ESP,Moteur,
+Nom19,prenom19,G,5eme1,Latin,ALL,,
+Nom20,prenom20,G,5eme1,Latin,ALL,,
+Nom21,prenom21,F,5eme1,,ESP,,
+Nom22,prenom22,F,5eme1,Latin,ALL,,
+Nom23,prenom23,F,5eme1,,ALL,,
+Nom24,prenom24,F,5eme1,Latin,ALL,,
+Nom25,prenom25,F,5eme1,Latin,ANGL,,
+Nom26,prenom26,F,5eme1,,ALL,,
+Nom27,prenom27,F,5eme1,,ALL,,
+Nom28,prenom28,F,5eme1,Latin,ANGL,,
+Nom29,prenom29,G,5eme1,Latin,ANGL,,
+Nom30,prenom30,F,5eme1,,ALL,,
+Nom31,prenom31,F,5eme2,,ESP,,
+Nom32,prenom32,G,5eme2,,ESP,Agite,-
+Nom33,prenom33,F,5eme2,,ESP,Bon Public,-
+Nom34,prenom34,F,5eme2,Latin,ESP,,
+Nom35,prenom35,G,5eme2,Latin,ESP,Bon Public,
+Nom36,prenom36,G,5eme2,Latin,ESP,,
+Nom37,prenom37,F,5eme2,Latin,ESP,Moteur,+
+Nom38,prenom38,G,5eme2,Latin,ESP,,+
+Nom39,prenom39,G,5eme2,,ESP,,
+Nom40,prenom40,F,5eme2,Latin,ESP,,+
+Nom41,prenom41,F,5eme2,,ESP,,
+Nom42,prenom42,G,5eme2,,ESP,,+
+Nom43,prenom43,G,5eme2,,ESP,Agite,-
+Nom44,prenom44,G,5eme2,,ESP,Bon Public,-
+Nom45,prenom45,G,5eme2,,ESP,Bon Public,
+Nom46,prenom46,G,5eme2,Latin,ESP,,
+Nom47,prenom47,F,5eme2,,ESP,Bon Public,-
+Nom48,prenom48,F,5eme2,Latin,ESP,,
+Nom49,prenom49,G,5eme2,Latin,ESP,,
+Nom50,prenom50,F,5eme2,Latin,ESP,Moteur,+
+Nom51,prenom51,F,5eme2,,ESP,,
+Nom52,prenom52,F,5eme2,,ESP,,1
+Nom53,prenom53,F,5eme2,,ESP,,
+Nom54,prenom54,F,5eme2,Latin,ESP,Moteur,
+Nom55,prenom55,G,5eme2,,ESP,Bon Public,
+Nom56,prenom56,F,5eme2,,ESP,,
+Nom57,prenom57,F,5eme2,,ESP,,+
+Nom58,prenom58,G,5eme4,,ESP,Agite,
+Nom59,prenom59,F,5eme4,,ALL,Bon Public,
+Nom60,prenom60,G,5eme4,,ESP,,-
+Nom61,prenom61,F,5eme4,,ALL,Bon Public,-
+Nom62,prenom62,G,5eme4,,ALL,,
+Nom63,prenom63,G,5eme4,,ESP,Moteur,
+Nom64,prenom64,G,5eme4,,ANGL,,
+Nom65,prenom65,F,5eme4,,ESP,Bon Public,-
+Nom66,prenom66,G,5eme4,,ANGL,,
+Nom67,prenom67,G,5eme4,,ESP,Moteur,
+Nom68,prenom68,F,5eme4,,ESP,Moteur,
+Nom69,prenom69,F,5eme4,,ALL,Moteur,
+Nom70,prenom70,F,5eme4,,ALL,Bon Public,
+Nom71,prenom71,F,5eme4,,ESP,,
+Nom72,prenom72,G,5eme4,,ESP,,
+Nom73,prenom73,F,5eme4,,ALL,,
+Nom74,prenom74,G,5eme4,,ANGL,,
+Nom75,prenom75,F,5eme4,,ANGL,,
+Nom76,prenom76,F,5eme4,,ESP,Bon Public,
+Nom77,prenom77,G,5eme4,,ESP,,
+Nom78,prenom78,G,5eme4,,ALL,Agite,
+Nom79,prenom79,G,5eme4,,ANGL,Bon Public,-
+Nom80,prenom80,G,5eme4,,ALL,,
+Nom81,prenom81,G,5eme4,,ESP,,
+Nom82,prenom82,F,5eme4,,ANGL,,
+Nom83,prenom83,F,5eme4,,ESP,,
+Nom84,prenom84,G,5eme4,,ESP,,-
+Nom85,prenom85,G,5eme5,,ESP,Agite,-
+Nom86,prenom86,G,5eme5,,ESP,,
+Nom87,prenom87,G,5eme5,,ESP,Bon Public,
+Nom88,prenom88,G,5eme5,,ESP,,
+Nom89,prenom89,G,5eme5,,ESP,Bon Public,
+Nom90,prenom90,F,5eme5,,ESP,,
+Nom91,prenom91,F,5eme5,,ESP,Bon Public,-
+Nom92,prenom92,F,5eme5,,ESP,Bon Public,
+Nom93,prenom93,F,5eme5,,ESP,,
+Nom94,prenom94,G,5eme5,,ESP,Bon Public,
+Nom95,prenom95,F,5eme5,,ESP,,
+Nom96,prenom96,G,5eme5,,ESP,,
+Nom97,prenom97,G,5eme5,,ESP,Agite,-
+Nom98,prenom98,F,5eme5,,ESP,,
+Nom99,prenom99,G,5eme5,,ESP,Bon Public,
+Nom100,prenom100,G,5eme5,,ESP,Agite,-
+Nom101,prenom101,G,5eme5,,ESP,Bon Public,
+Nom102,prenom102,F,5eme5,,ESP,,
+Nom103,prenom103,G,5eme5,,ESP,Agite,
+Nom104,prenom104,G,5eme5,,ESP,Bon Public,
+Nom105,prenom105,F,5eme5,,ESP,,
+Nom106,prenom106,G,5eme5,,ESP,,
+Nom107,prenom107,F,5eme5,,ESP,,
+Nom108,prenom108,F,5eme5,,ESP,,
+Nom109,prenom109,G,5eme5,,ESP,Agite,
+Nom110,prenom110,F,5eme5,,ESP,,

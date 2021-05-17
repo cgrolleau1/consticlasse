@@ -1,0 +1,171 @@
+	ul {
+		list-style:none;
+		margin-left:0;
+		padding-left:0;
+	}
+	li {
+		margin-bottom:5px;
+	}
+	.eleve {
+		width:140px; 
+		height:auto;
+		margin:5px;
+		font-size:small;
+		border:1px solid #aaaaaa;
+	}
+	.classe {
+		float:left;
+		width:150px; 
+		height:2400px;
+		margin:10px;
+		padding:10px;
+		border:1px solid #aaaaaa;
+	}
+	.download {
+		margin:20px;
+	}
+	.headerClasse {
+		float:center;
+		width:150px; 
+		height:auto;
+		margin:10px;
+		padding:10px;
+	}
+	.selected {
+		background-color:#D2FCF4;
+	}
+	.addButton {
+		border:1px solid white;
+	}
+	.addButton:hover {
+		border:1px solid #d6bcd6;
+	}
+	.Fhighliht {
+		background-color:#FDFF7D;
+	}
+	.PublicHighlight {
+		color:#FFD47D;
+	}
+	.AgiteHighlight {
+		color:red;
+	}
+	.MoteurHighlight {
+		color:green;
+	}
+	#changeAttspan {
+		display:none;
+	}
+	#selectall {
+		display:block;
+		width:180px
+	}
+	#header {
+		display: grid;
+		width: 900px;
+		grid-template-columns: 180px 300px 180px;
+		align-items: start;
+		justify-content: space-between;
+		margin:10px;
+	}
+	
+	#allClasses {
+		display: grid;
+		width: 900px;
+		grid-template-columns: 180px 180px 180px 180px 180px 180px;
+		align-items: start;
+		justify-content: space-between;
+	}
+	#sort {
+		width: inherit;
+		
+	}
+	label {
+		font-weight: bold ;
+	}
+	#boxClasses {
+		display: grid;
+		width: 1500px;
+		grid-template-columns: 1200px 160px;
+		align-items: start;
+	}
+	.cstr {
+		width:40px;
+	}
+	#divlistEleve {
+		float:left; 
+		display: grid;
+		width:550px;
+		grid-template-columns: 180px 180px 180px;		
+		height:auto;
+		margin:10px;
+		padding:10px;
+		border:1px solid #aaaaaa;
+	}
+	.myButton {
+		box-shadow: 3px 4px 0px 0px #899599;
+		background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+		background-color:#ededed;
+		border-radius:15px;
+		border:1px solid #d6bcd6;
+		display:inline-block;
+		cursor:pointer;
+		color:#3a8a9e;
+		font-family:Arial;
+		font-size:17px;
+		padding:7px 25px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #e1e2ed;
+	}
+	.myButton:hover {
+		background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
+		background-color:#bab1ba;
+	}
+	.myButton:active {
+		position:relative;
+		top:1px;
+	}
+	.result {
+		font-weight: bolder ;
+		background-color:#ededed;
+		margin:10px;
+	}
+	.oldclass {
+		font-style:italic;
+	}
+	.countclasse {
+		font-weight: bolder ;
+	}
+	.download-link {
+		display:none;
+	}
+	.countOK {
+		background:#aaf7b7;
+	}
+	.countKO {
+		background:#ffb4bf;
+	}
+	.toggleButton {
+		box-shadow:inset 0px 1px 0px 0px #ffffff;
+		background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+		background-color:#ffffff;
+		border-radius:6px;
+		border:1px solid #dcdcdc;
+		display:inline-block;
+		cursor:pointer;
+		color:#666666;
+		font-family:Arial;
+		font-size:15px;
+		font-weight:bold;
+		padding:6px 24px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #ffffff;
+		margin-left: 120px;
+	}
+	.toggleButton:hover {
+		background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+		background-color:#f6f6f6;
+	}
+	.toggleButton:active {
+		position:relative;
+		top:1px;
+	}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- créé par Cédric GROLLEAU juin 2020 licence CC-BY-NC-SA https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr -->
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+		<title>CG-constitution_classe</title>
+		<link href="main.css" rel="stylesheet">
+	</head>
+	<body>
+		<h1>Application d'aide à la constitution des classes.</h1>
+		<div id="header">
+		<div>
+			Nombre de divisions <input id="nbclasses" type="number"/> 
+		</div>
+		<div>
+			<textarea id="eleveList">Copier ici la liste des élèves </textarea>
+		</div>
+		<div>
+			<span class="myButton" onclick="init()"> Créer la matrice </span>
+		</div>
+		</div>
+		<div>
+			<span class="myButton download" onclick="exportfile()"> Télécharger les classes.</span>
+			<a id="dnl" href="#" class="download-link">telecharger</a>
+		</div>
+		<div>
+			Mettre en évidence :
+			<ul>
+				<li><input type="checkbox" id="sex" > <label for="sex">Sexe</label> (fond : jaune fille, blanc gars) </li>
+				<li><input type="checkbox" id="option" > <label for="option">Option</label> (gras : latin, italique : chorale) </li>
+				<li><input type="checkbox" id="lang" > <label for="lang">Langue</label> (Contour : Jaune All LV2, Bleu Angl LV2, Rouge Esp LV2) </li>
+				<li><input type="checkbox" id="att" > <label for="att">Attitude</label> (Police : rouge : agité, orange : bon public, noir : RAS, vert : moteur) </li>
+				<span id="changeAttspan"> Changer l'attitude des élèves sélectionnés : 
+			<select id="ChangeAtt">
+				<option value="Neutre">Neutre</option>
+				<option value="Agite">Agite</option>
+				<option value="Public">Bon Public</option>
+				<option value="Moteur">Moteur</option>
+			</select>
+			<span class="myButton" onclick="changeselectedAtt()"> Valider.</span>
+		</span>
+				<li><input type="checkbox" id="result" > <label for="result">Résultats</label> Affichage + - après le prénom </li>
+			</ul>
+			<span class="toggleButton" onclick="toggleCount()"> Afficher/Cacher les compteurs.</span>
+		</div>
+		<div id="boxClasses">
+			<div id="allClasses">
+			</div>
+			<div id="sort">
+				Filtre, afficher uniquement :
+				<ul>		
+				<li>
+					<select name="Option" id="FilterOption">
+						<option value="NoFilter">--Please choose an option--</option>
+						<option value="Latin">Latin</option>
+						<option value="Chorale">Chorale</option>
+						<option value="LCEESP">LCEESP</option>
+						<option value="LCEESP">LCEALL</option>
+					</select>
+				</li>
+				<li><input type="checkbox" id="langfiltreALL" class="filter"> les LV2 Allemands </li>
+				<li><input type="checkbox" id="langfiltreANGL" class="filter"> les LV2 Anglais </li>
+				<li><input type="checkbox" id="langfiltreESP" class="filter"> les LV2 Espagnol </li>
+				<li><input type="checkbox" id="attfiltreagite" class="filter"> les élèves "agités" </li>
+				<li><input type="checkbox" id="attfiltremoteurs" class="filter"> les élèves "moteurs" </li>
+			</ul>
+				<span id="selectall" class="myButton" onclick="selectAll()"> Tout selectionner.</span>
+				<div id="divlistEleve" ondrop="drop(event)"
+				ondragover="allowDrop(event)" > 
+			</div>
+		</div>
+		<p>&copy; CG-CONSTICLASSE. <image src="license.png"/> C.GROLLEAU juin 2020 : <a href="https://sites.google.com/view/relema">https://sites.google.com/view/relema</a></p>
+		
+	</body>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="papaparse.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+</html>
+ 
