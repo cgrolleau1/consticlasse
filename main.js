@@ -14,7 +14,16 @@ function drag(ev) {
 function drop(ev) {
 	ev.preventDefault();
 	var data=ev.dataTransfer.getData("Text");
+  let listeLies
+  if ($('#'+data).attr('data-linked')) {
+      listeLies = $('#'+data).attr('data-linked').split('¤')
+  }
 	ev.target.appendChild(document.getElementById(data));
+  for (let i=0;i<listeLies.length;i++) {
+    if(document.getElementById(listeLies[i])) {
+      ev.target.appendChild(document.getElementById(listeLies[i]));
+    }
+  }
 	   // Quand on dépose un élève dans une classe on recalcule les effectifs.
 	majcounter();
 }
