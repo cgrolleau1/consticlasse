@@ -238,9 +238,11 @@ function interactionEleves(type) {
     }
     if (type === 'lier') {
       $(selectedList[i]).attr('data-linked',linkedList);
+      $(selectedList[i]).attr('title',"lié à : "+linkedList+" séparé de : "+$(selectedList[i]).attr("data-separe"));
     }
     if (type === 'separer') {
-      $(selectedList[i]).attr('data-linked',linkedList);
+      $(selectedList[i]).attr('data-separe',linkedList);
+      $(selectedList[i]).attr('title',"lié à : "+linkedList+" séparé de : "+$(selectedList[i]).attr("data-separe"));
     }
   }
 }
