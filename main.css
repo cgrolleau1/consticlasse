@@ -48,6 +48,13 @@
     width: 40px;
     height: 40px;
   }
+  .img_eleve {
+    width: 20px;
+    height: 20px;
+  }
+  .classeErreur {
+    background-color:#FFE7CB;
+  }
 	.addButton:hover {
 		border:1px solid #d6bcd6;
 	}

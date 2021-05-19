@@ -36,7 +36,7 @@ function createClasses() {  //création des colonnes pour les classes
 	divclasses ='';
 	nbclasses = $("#nbclasses").val(); //Utilisation du nombre de classes donné par l'utilisateur.
 	for (i=1; i<=nbclasses; i++) {
-		divclasses = divclasses + '<div id="headclasse'+i+'" class="headerClasse"><image src="plus.png" id="" onclick="ajouterEleve('+i+')" class="addButton"/><image src="tri.png" id="" onclick="trierEleves('+i+')" class="triButton"/>Classe'+ i +' <div class="countdiv">( <span id="countclasse'+i+'" class="countclasse">0</span> élèves) / <input type="number" class="cstr" id="countclassecstr'+i+'" ></div> <div class="countdiv" id="divlatin'+i+'"> Latin : <span id="countlatin'+i+'"> 0 </span> / <input class="cstr" type="number" id="countlatincstr'+i+'"></div> <div id="divall'+i+'" class="countdiv"> ALL  : <span id="countAll'+i+'">0</span> / <input class="cstr" type="number" id="countallcstr'+i+'"></div><div id="divesp'+i+'" class="countdiv"> ESP  : <span id="countesp'+i+'">0</span> / <input class="cstr" type="number" id="countespcstr'+i+'"></div><div id="divangl'+i+'" class="countdiv"> ANGL : <span id="countangl'+i+'">0</span> / <input type="number" class="cstr" id="countanglcstr'+i+'"></div></div>';
+		divclasses = divclasses + '<div id="headclasse'+i+'" class="headerClasse"><image src="plus.png" id="" onclick="ajouterEleve('+i+')" class="addButton"/><image src="tri.png" id="" onclick="trierEleves('+i+')" class="triButton"/>Classe'+ i +' <div id="message'+i+'" class="message"></div><div class="countdiv">( <span id="countclasse'+i+'" class="countclasse">0</span> élèves) / <input type="number" class="cstr" id="countclassecstr'+i+'" ></div> <div class="countdiv" id="divlatin'+i+'"> Latin : <span id="countlatin'+i+'"> 0 </span> / <input class="cstr" type="number" id="countlatincstr'+i+'"></div> <div id="divall'+i+'" class="countdiv"> ALL  : <span id="countAll'+i+'">0</span> / <input class="cstr" type="number" id="countallcstr'+i+'"></div><div id="divesp'+i+'" class="countdiv"> ESP  : <span id="countesp'+i+'">0</span> / <input class="cstr" type="number" id="countespcstr'+i+'"></div><div id="divangl'+i+'" class="countdiv"> ANGL : <span id="countangl'+i+'">0</span> / <input type="number" class="cstr" id="countanglcstr'+i+'"></div></div>';
 	}
 	for (i=nbclasses; i<6; i++) {
 		divclasses = divclasses + '<div id="header'+i+'"></div>';
@@ -79,7 +79,7 @@ function createEleveList() { 	//Création de la banque d'élèves.
 	elistlength = eleveList.data.length; 
 	divEleves = '';
 	for (i=0; i<elistlength; i++) {  //On parcours chaque élève, à chaque élève on créé une div avec tous les éléments pour faire facilement les filtres et reconstruire un fichier classe.
-		divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="eleve '+eleveList.data[i].sexe+' '+eleveList.data[i].opt+' '+eleveList.data[i].attitude+' '+eleveList.data[i].LV2+' '+eleveList.data[i].resultats+'"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].classe+') </span><span class="result">'+eleveList.data[i].resultats+'</span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span><span hidden class="opteleve">'+eleveList.data[i].opt+'</span><span hidden class="LV2eleve">'+eleveList.data[i].LV2+'</span></div>';
+		divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="eleve '+eleveList.data[i].sexe+' '+eleveList.data[i].opt+' '+eleveList.data[i].attitude+' '+eleveList.data[i].LV2+' '+eleveList.data[i].resultats+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].classe+') </span><span class="result">'+eleveList.data[i].resultats+'</span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span><span hidden class="opteleve">'+eleveList.data[i].opt+'</span><span hidden class="LV2eleve">'+eleveList.data[i].LV2+'</span></div>';
 	}
 	$('#divlistEleve').html(divEleves);
   $('.nom_init').hide()
@@ -88,6 +88,8 @@ function createEleveList() { 	//Création de la banque d'élèves.
 function init() {
 	createEleveList();
 	createClasses();
+  $('.img_eleve').hide();
+  $('.message').hide();
 }
 
 //*****************************************************
@@ -239,10 +241,12 @@ function interactionEleves(type) {
     if (type === 'lier') {
       $(selectedList[i]).attr('data-linked',linkedList);
       $(selectedList[i]).attr('title',"lié à : "+linkedList+" séparé de : "+$(selectedList[i]).attr("data-separe"));
+      $(selectedList[i]).find('.lier_eleve').show();
     }
     if (type === 'separer') {
       $(selectedList[i]).attr('data-separe',linkedList);
-      $(selectedList[i]).attr('title',"lié à : "+linkedList+" séparé de : "+$(selectedList[i]).attr("data-separe"));
+      $(selectedList[i]).attr('title',"lié à : "+$(selectedList[i]).attr("data-linked")+" séparé de : "+linkedList);
+      $(selectedList[i]).find('.separer_eleve').show();
     }
   }
 }
@@ -325,6 +329,7 @@ function ajouterEleve(numclasse) {
 	$("#classe"+numclasse).append($('.selected'));
 	$('.selected').removeClass('selected');
 	majcounter();
+  checkLink();
 }
 
 //***********Changement de l'attitude d'élèves.
@@ -397,4 +402,43 @@ function majcounter() {
 			$('#divangl'+i).addClass('countKO');
 		}
 	}
+}
+
+function checkLink() {
+  var i, eleveList, elevenumber, probleme,listeliens;
+  for (i=1 ; i<7 ; i++) {
+		probleme = '';
+    eleveList = $('#classe'+i).children();
+    coupleListe = [];
+    for(let j=0; j<eleveList.length; j++) {
+      if ($(eleveList[j]).attr('data-linked')) {
+        //on récupère la liste des élèves liés et on vérifie qu'ils sont bien dans cette classe.
+        listeliens = $(eleveList[j]).attr('data-linked').split('¤');
+        for (let k=1; k<listeliens.length;k++) {
+          if (!$('#classe'+i).find('#'+listeliens[k])) {
+            probleme = probleme + ` ${$(eleveList[j]).attr('id')} et ${listeliens[k]} doivent être dans la même classe \n `
+          }
+        }  
+      }
+      if ($(eleveList[j]).attr('data-separe')) {
+        //on récupère la liste des élèves liés et on vérifie qu'ils ne sont pas dans la classe
+        listeliens = $(eleveList[j]).attr('data-separe').split('¤');
+        for (let k=1; k<listeliens.length;k++) {
+          if ($('#classe'+i).find('#'+listeliens[k]).attr('id') && 
+              coupleListe.indexOf($(eleveList[j]).attr('id')+listeliens[k])<0 && coupleListe.indexOf(listeliens[k]+$(eleveList[j]).attr('id'))<0) {
+            coupleListe.push($(eleveList[j]).attr('id')+listeliens[k])
+            probleme = probleme + ` ${$(eleveList[j]).attr('id')} et ${listeliens[k]} ne doivent pas être dans la même classe ! \n `
+          }
+        }
+      }
+    }
+    if (probleme) {
+      $('#message'+i).html(probleme);
+      $('#message'+i).show();
+      $('#classe'+i).addClass('classeErreur');
+    } else {
+      $('#message'+i).hide();
+      $('#classe'+i).removeClass('classeErreur');
+    }
+  }
 }
