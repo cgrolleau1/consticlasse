@@ -22,6 +22,7 @@
 		<div>
 			<span class="myButton download" onclick="exportfile()"> Télécharger les classes.</span>
 			<a id="dnl" href="#" class="download-link">telecharger</a>
+      <span class="myButton download" onclick="savefile()"> Sauvegarder.</span>
 		</div>
 		<div>
 			Mettre en évidence :
@@ -39,7 +40,7 @@
 			</select>
 			<span class="myButton" onclick="changeselectedAtt()"> Valider.</span>
 		</span>
-				<li><input type="checkbox" id="result" > <label for="result">Résultats</label> Affichage + - après le prénom </li>
+				<li><input type="checkbox" id="result" > <label for="result">Informations</label> Affichage après le prénom </li>
 			</ul>
       
       <span class="toggleButton" onclick="toggleCount()"> Afficher/Cacher les compteurs.</span>
@@ -50,8 +51,12 @@
 			</div>
 			<div id="sort">
 				<div>
-        <span><image class="icone" src="lier.png" onclick="interactionEleves('lier')"/>lier</span>
-        <span><image class="icone" src="separer.png" onclick="interactionEleves('separer')"/>séparer</span>
+          <span><image class="icone" src="lier.png" onclick="interactionEleves('lier')"/></span>
+          <span><image class="icone" src="delier.png" onclick="interactionEleves('delier')"/></span>
+        </div>
+        <div>
+          <span><image class="icone" src="separer.png" onclick="interactionEleves('separer')"/></span>
+          <span><image class="icone" src="deseparer.png" onclick="interactionEleves('deseparer')"/></span>
         </div>
         Filtre, afficher uniquement :
 				<ul>		

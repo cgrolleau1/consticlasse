@@ -1,4 +1,4 @@
-nom,prenom,sexe,classe,opt,LV2,attitude,resultats
+nom,prenom,sexe,oldclasse,opt,LV2,attitude,info
 Nom1,prenom1,F,5eme1,,ESP,,
 Nom2,prenom2,G,5eme1,,,,
 Nom3,prenom3,G,5eme1,,ESP,,
@@ -12,7 +12,7 @@ Nom10,prenom10,G,5eme1,,ESP,,
 Nom11,prenom11,F,5eme1,Latin,ESP,,
 Nom12,prenom12,F,5eme1,,,,+
 Nom13,prenom13,F,5eme1,Latin,ANGL,,+
-Nom14,prenom14,G,5eme1,Latin,ESP,,+
+Nom14,prenom14,G,5eme1,Latin,ESP,,souvent absent
 Nom15,prenom15,G,5eme1,,ESP,,-
 Nom16,prenom16,F,5eme1,,ESP,,-
 Nom17,prenom17,F,5eme1,Latin,ALL,,-

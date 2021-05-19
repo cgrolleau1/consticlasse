@@ -79,7 +79,7 @@ function createEleveList() { 	//Création de la banque d'élèves.
 	elistlength = eleveList.data.length; 
 	divEleves = '';
 	for (i=0; i<elistlength; i++) {  //On parcours chaque élève, à chaque élève on créé une div avec tous les éléments pour faire facilement les filtres et reconstruire un fichier classe.
-		divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="eleve '+eleveList.data[i].sexe+' '+eleveList.data[i].opt+' '+eleveList.data[i].attitude+' '+eleveList.data[i].LV2+' '+eleveList.data[i].resultats+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].classe+') </span><span class="result">'+eleveList.data[i].resultats+'</span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span><span hidden class="opteleve">'+eleveList.data[i].opt+'</span><span hidden class="LV2eleve">'+eleveList.data[i].LV2+'</span></div>';
+		divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="eleve '+eleveList.data[i].sexe+' '+eleveList.data[i].opt+' '+eleveList.data[i].attitude+' '+eleveList.data[i].LV2+' '+eleveList.data[i].info+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span class="result">'+eleveList.data[i].info+'</span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span><span hidden class="opteleve">'+eleveList.data[i].opt+'</span><span hidden class="LV2eleve">'+eleveList.data[i].LV2+'</span></div>';
 	}
 	$('#divlistEleve').html(divEleves);
   $('.nom_init').hide()
@@ -97,6 +97,37 @@ function init() {
 //****** Extraction des nouvelles classe pour créer un fichier csv *************
 
 function exportfile() {
+	var eleveArray = [], elevenumber, eleveList, file, i, k, objEleve ={};
+	for (i=1 ; i<7 ; i++) {
+			eleveList = $('#classe'+i).children();
+			elevenumber = eleveList.length;
+			for (k=0; k<elevenumber ; k++) {
+				objEleve = {
+					nom: $('.nomeleve', eleveList[k]).html(),
+					prenom: $('.prenomeleve', eleveList[k]).html(),
+					sexe: $('.sexeleve', eleveList[k]).html(),
+					classe: 'classe'+i,
+					oldclasse: $('.oldclass', eleveList[k]).html(),
+					opt: $('.opteleve', eleveList[k]).html(),
+					LV2: $('.LV2eleve', eleveList[k]).html()
+				};
+				eleveArray.push(objEleve);
+			}
+	}	
+	file = Papa.unparse(eleveArray, {
+			quotes: false, //or array of booleans
+			quoteChar: '"',
+			escapeChar: '"',
+			delimiter: ",",
+			header: true,
+			newline: "\r\n",
+			skipEmptyLines: false, //or 'greedy',
+			columns: null //or array of strings
+		});		
+	downloadfile(file);
+}
+
+function savefile() {
 	var eleveArray = [], elevenumber, eleveList, file, i, k, objEleve ={};
 	for (i=1 ; i<7 ; i++) {
 			eleveList = $('#classe'+i).children();
@@ -237,6 +268,14 @@ function interactionEleves(type) {
       if (i!==j) {
          linkedList = linkedList + '¤' + $(selectedList[j]).attr('id');
       }
+    }
+    if (type === 'delier') {
+      $(selectedList[i]).attr('data-linked','');
+      $(selectedList[i]).find('.lier_eleve').hide();
+    }
+    if (type === 'deseparer') {
+      $(selectedList[i]).attr('data-separe','');
+      $(selectedList[i]).find('.separer_eleve').hide();
     }
     if (type === 'lier') {
       $(selectedList[i]).attr('data-linked',linkedList);
