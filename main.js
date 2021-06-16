@@ -5,6 +5,7 @@
 //fichier import colonne 1 nom ; colonne 2 : prenom ; colonne 3 : sexe
 
 var constraintChoiceSelect = '';
+var optionsList =[];
 
 //********* Gestion du glissé déposé **********
 function allowDrop(ev) {
@@ -86,6 +87,7 @@ function createClasse() {  //création des colonnes pour les classes
     for (j=0 ; j < constraintchoice[i].listvalues.length ; j++) {
       if (constraintchoice[i].columnName !== 'sexe' && constraintchoice[i].columnName !== 'oldclasse' && constraintchoice[i].columnName !== 'info' && constraintchoice[i].columnName !== 'attitude' && constraintchoice[i].listvalues[j]) {
         optionList += `<option value="${constraintchoice[i].columnName + '¤' +constraintchoice[i].listvalues[j]}">${constraintchoice[i].columnName +' : '+constraintchoice[i].listvalues[j]}</option>`;
+        optionsList.push(constraintchoice[i].listvalues[j]);
       }
     }
     selectList += optionList;
@@ -180,7 +182,7 @@ function validerStructure() {
     for (j=0 ; j<constraintLinesNb ; j=j+2) { //pour chaque classe on parcourt chaque ligne pour remplacer les champs à remplir par ce qui a été vérouillé.
       optionConstraint = $('#headclasse'+i+' .ClasseContraintes')[j].value.split('¤')[1] //selecteur pour trouver l'option choisie
       nombrePourOption = $('#headclasse'+i+' .ClasseContraintes')[j+1].value //input correpondant à l'option
-      constraintLine += `<div id="div${optionConstraint+i}" class="countdiv"> ${optionConstraint} : <span id="count${optionConstraint+i}">0</span> / <input class="cstr readonly" type="number" id="count${optionConstraint+i}" value="${nombrePourOption}" ></div>`
+      constraintLine += `<div id="div${optionConstraint+i}" class="countdiv"> ${optionConstraint} : <span id="count${optionConstraint+i}">0</span> / <input class="cstr readonly" type="number" id="count${optionConstraint+'cstr'+i}" value="${nombrePourOption}" ></div>`
     }
     $('#headclasse'+i+' .contraintes').html(constraintLine)
   }
@@ -522,21 +524,18 @@ function majcounter() {
 		elevenumber = eleveList.length;
 		$('#countclasse'+i).text(elevenumber);
     //on parcourt les différentes options, pour chaque option on compte.
-    /*
-    optionList = ; //TODO liste des options
-    for (j=0: j<optionList.length ; j++) {
-      eleveList = $('#classe'+i+' .'+optionList[j]);
+    for (j=0; j<optionsList.length ; j++) {
+      eleveList = $('#classe'+i+' .'+optionsList[j]);
       elevenumber = eleveList.length;
-      $('#count'+optionList[j]+i).text(elevenumber);
-      if (elevenumber == $('#count'+optionList[j]+'cstr'+i).val()) {
-        $('#div'+optionList[j]+i).removeClass('countKO');
-        $('#div'+optionList[j]+i).addClass('countOK');
+      $('#count'+optionsList[j]+i).text(elevenumber);
+      if (elevenumber == $('#count'+optionsList[j]+'cstr'+i).val()) {
+        $('#div'+optionsList[j]+i).removeClass('countKO');
+        $('#div'+optionsList[j]+i).addClass('countOK');
       } else {
-        $('#div'+optionList[j]+i).removeClass('countOK');
-        $('#div'+optionList[j]+i).addClass('countKO');
+        $('#div'+optionsList[j]+i).removeClass('countOK');
+        $('#div'+optionsList[j]+i).addClass('countKO');
       }
     }
-    */
 	}
 }
 
