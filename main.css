@@ -52,6 +52,10 @@
     width: 20px;
     height: 20px;
   }
+  .constraintnumber{
+    display: inline;
+    width: 30px;
+  }
   .classeErreur {
     background-color:#FFE7CB;
   }
@@ -87,8 +91,8 @@
 	}
 	#allClasses {
 		display: grid;
-		width: 900px;
-		grid-template-columns: 180px 180px 180px 180px 180px 180px;
+		width: 700px;
+		grid-template-columns: 180px 180px 180px 180px 180px ;
 		align-items: start;
 		justify-content: space-between;
 	}
@@ -102,7 +106,7 @@
 	#boxClasses {
 		display: grid;
 		width: 1500px;
-		grid-template-columns: 1200px 160px;
+		grid-template-columns: 950px 160px;
 		align-items: start;
 	}
 	.cstr {
@@ -186,3 +190,12 @@
 		position:relative;
 		top:1px;
 	}
+  .readonly {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    border: none;
+    color: #333333;
+    position: relative;
+    left: -2px;
+  }

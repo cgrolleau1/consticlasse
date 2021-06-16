@@ -2,6 +2,10 @@
 //licence CC-BY-NC-SA https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr
 
 
+//fichier import colonne 1 nom ; colonne 2 : prenom ; colonne 3 : sexe
+
+var constraintChoiceSelect = '';
+
 //********* Gestion du glissé déposé **********
 function allowDrop(ev) {
 	ev.preventDefault();
@@ -31,24 +35,84 @@ function drop(ev) {
 
 //******** Initialisation de la matrice***************
 
-function createClasses() {  //création des colonnes pour les classes
+function createClasse() {  //création des colonnes pour les classes
 	var nbclasses, i, divclasses;
-	divclasses ='';
-	nbclasses = $("#nbclasses").val(); //Utilisation du nombre de classes donné par l'utilisateur.
-	for (i=1; i<=nbclasses; i++) {
-		divclasses = divclasses + '<div id="headclasse'+i+'" class="headerClasse"><image src="plus.png" id="" onclick="ajouterEleve('+i+')" class="addButton"/><image src="tri.png" id="" onclick="trierEleves('+i+')" class="triButton"/>Classe'+ i +' <div id="message'+i+'" class="message"></div><div class="countdiv">( <span id="countclasse'+i+'" class="countclasse">0</span> élèves) / <input type="number" class="cstr" id="countclassecstr'+i+'" ></div> <div class="countdiv" id="divlatin'+i+'"> Latin : <span id="countlatin'+i+'"> 0 </span> / <input class="cstr" type="number" id="countlatincstr'+i+'"></div> <div id="divall'+i+'" class="countdiv"> ALL  : <span id="countAll'+i+'">0</span> / <input class="cstr" type="number" id="countallcstr'+i+'"></div><div id="divesp'+i+'" class="countdiv"> ESP  : <span id="countesp'+i+'">0</span> / <input class="cstr" type="number" id="countespcstr'+i+'"></div><div id="divangl'+i+'" class="countdiv"> ANGL : <span id="countangl'+i+'">0</span> / <input type="number" class="cstr" id="countanglcstr'+i+'"></div></div>';
-	}
-	for (i=nbclasses; i<6; i++) {
-		divclasses = divclasses + '<div id="header'+i+'"></div>';
-	}
-	for (i=1; i<(Number.parseInt(nbclasses)+1); i++) {
-		divclasses = divclasses + '<div id="classe'+i+'" ondrop="drop(event)" ondragover="allowDrop(event)" class="classe">  </div>'
-	}
-	$("#allClasses").html(divclasses);
+	divclasses = '';
+	nbclasses = $(".headerClasse").length;
+  i = nbclasses;
+  elevecsv = $("#eleveList").val();
+	eleveList = Papa.parse(elevecsv, {  //utilisation du package papaparse pour convertir le fichier csv en objet JS
+			download: false,
+			delimiter: "",	// auto-detect
+			newline: "",	// auto-detect
+			quoteChar: '"',
+			escapeChar: '"',
+			header: true,
+			transformHeader: undefined,
+			dynamicTyping: false,
+			preview: 0,
+			encoding: "",
+			worker: false,
+			comments: false,
+			step: undefined,
+			complete: undefined,
+			error: undefined,
+			download: false,
+			downloadRequestHeaders: undefined,
+			downloadRequestBody: undefined,
+			skipEmptyLines: false,
+			chunk: undefined,
+			fastMode: undefined,
+			beforeFirstChunk: undefined,
+			withCredentials: undefined,
+			transform: undefined,
+		});
+	elistlength = eleveList.data.length; 
+	divEleves = '';
+	infos = Object.keys(eleveList.data[0])
+  constraintchoice = [];
+  for (i=2; i<infos.length; i++) {
+    listvalues = [];
+    for (j=2; j<eleveList.data.length; j++) {
+      if ( listvalues.indexOf(eleveList.data[j][infos[i]]) <0 ) {
+        listvalues.push(eleveList.data[j][infos[i]])
+      }     
+    }
+    constraintchoice.push({columnName:infos[i],listvalues:listvalues});
+  }
+  selectList = '';
+  for (i=2; i<constraintchoice.length ; i++) {
+    optionList = '';
+    for (j=0 ; j < constraintchoice[i].listvalues.length ; j++) {
+      if (constraintchoice[i].columnName !== 'sexe' && constraintchoice[i].columnName !== 'oldclasse' && constraintchoice[i].columnName !== 'info' && constraintchoice[i].columnName !== 'attitude' && constraintchoice[i].listvalues[j]) {
+        optionList += `<option value="${constraintchoice[i].columnName + '¤' +constraintchoice[i].listvalues[j]}">${constraintchoice[i].columnName +' : '+constraintchoice[i].listvalues[j]}</option>`;
+      }
+    }
+    selectList += optionList;
+  }
+  selectList = `<select class='ClasseContraintes'>`  + selectList + '</select> <input type="number" class="constraintnumber ClasseContraintes">' ;
+  constraintChoiceSelect = selectList;
+  i = $(".headerClasse").length + 1;
+  divclasses = divclasses + 
+    '<div id="headclasse'+i+'" class="headerClasse"><image src="plus.png" id="" onclick="ajouterEleve('+i+')" class="addButton"/>' +
+    '<image src="tri.png" id="" onclick="trierEleves('+i+')" class="triButton"/>Classe'+ i +
+    ' <div id="message'+i+'" class="message"></div><div class="countdiv">( <span id="countclasse'+i+'" class="countclasse">0</span> élèves) / <input type="number" class="cstr" id="countclassecstr'+i+'" ></div><div class="contraintes">'+selectList+'</div>'+
+    ' <div><span class="myButton addContrainteBouton" onclick="addSelectList('+i+')"> Ajouter une contrainte de classe </span></div></div>';
+    // on récupère les entetes du csv importé pour proposer des elects : 1 premier entete de colonne, 2 une des valeurs presente, input nombre voulu.
+  /*  ' <div class="countdiv" id="divopt1'+i+'"> <input id="opt1abel" type ="texte"> <span id="countopt1'+i+'"> 0 </span> / <input class="cstr" type="number" id="countopt1cstr'+i+'"></div>'+
+    ' <div id="divall'+i+'" class="countdiv"> ALL  : <span id="countAll'+i+'">0</span> / <input class="cstr" type="number" id="countallcstr'+i+'"></div><div id="divesp'+i+'" class="countdiv"> ESP  : <span id="countesp'+i+'">0</span> / <input class="cstr" type="number" id="countespcstr'+i+'"></div><div id="divangl'+i+'" class="countdiv"> ANGL : <span id="countangl'+i+'">0</span> / <input type="number" class="cstr" id="countanglcstr'+i+'"></div></div>';*/
+	//for (i=1; i<(Number.parseInt(nbclasses)+1); i++) {
+	//	divclasses = divclasses + '<div id="classe'+i+'" ondrop="drop(event)" ondragover="allowDrop(event)" class="classe">  </div>'
+	//}
+	$("#allClasses").append('<div>' + divclasses + '<div id="classe'+i+'" ondrop="drop(event)" ondragover="allowDrop(event)" class="classe"></div>  </div>');
+}
+
+function addSelectList(classNum) {
+  $('#headclasse'+classNum+' .contraintes').append(constraintChoiceSelect);
 }
 
 function createEleveList() { 	//Création de la banque d'élèves.
-	var elevecsv, eleveList, elistlength, i, divEleves;
+	var elevecsv, eleveList, elistlength, i, divEleves, classEleve, infos;
 	elevecsv = $("#eleveList").val();
 	eleveList = Papa.parse(elevecsv, {  //utilisation du package papaparse pour convertir le fichier csv en objet JS
 			download: false,
@@ -78,8 +142,16 @@ function createEleveList() { 	//Création de la banque d'élèves.
 		});
 	elistlength = eleveList.data.length; 
 	divEleves = '';
-	for (i=0; i<elistlength; i++) {  //On parcours chaque élève, à chaque élève on créé une div avec tous les éléments pour faire facilement les filtres et reconstruire un fichier classe.
-		divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="eleve '+eleveList.data[i].sexe+' '+eleveList.data[i].opt+' '+eleveList.data[i].attitude+' '+eleveList.data[i].LV2+' '+eleveList.data[i].info+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span class="result">'+eleveList.data[i].info+'</span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span><span hidden class="opteleve">'+eleveList.data[i].opt+'</span><span hidden class="LV2eleve">'+eleveList.data[i].LV2+'</span></div>';
+	infos = Object.keys(eleveList.data[0]) //on récupère les entetes des colonnes du csv importé pour construire les div eleves.
+  for (i=0; i<elistlength; i++) {  //On parcours chaque élève, à chaque élève on créé une div avec tous les éléments pour faire facilement les filtres et reconstruire un fichier classe.
+    div1eleve = '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="eleve '+eleveList.data[i].sexe+' ';
+		classEleve = 'eleve ';
+    spanoption = ''
+    for (j=2; j<infos.length ; j++) {
+      classEleve = classEleve + ' ' + eleveList.data[i][infos[j]]
+      spanoption = `<span hidden class="${infos[j]}eleve">${eleveList.data[i][infos[j]]}</span> ` 
+    }
+    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
 	}
 	$('#divlistEleve').html(divEleves);
   $('.nom_init').hide()
@@ -87,10 +159,43 @@ function createEleveList() { 	//Création de la banque d'élèves.
 
 function init() {
 	createEleveList();
-	createClasses();
+	createClasse();
   $('.img_eleve').hide();
   $('.message').hide();
 }
+
+var preventDefaultBehavior = function(e) {
+   e.preventDefault();      
+}
+
+function validerStructure() {
+  var i, j, constraintLines, constraintLinesNb, constraintLine, classes;
+  $(".ClasseContraintes").addClass('readonly');
+  $(".ClasseContraintes").bind('mousedown', preventDefaultBehavior);
+  classes = $(".headerClasse");
+  for (i=0; i<classes.length+1;i++) { //on parcourt chaque classe.
+    constraintLines = $('#headclasse'+i+'  .ClasseContraintes'); //récupère les différentes lignes de contrainte
+    constraintLinesNb = constraintLines.length;
+    constraintLine = '';
+    for (j=0 ; j<constraintLinesNb ; j=j+2) { //pour chaque classe on parcourt chaque ligne pour remplacer les champs à remplir par ce qui a été vérouillé.
+      optionConstraint = $('#headclasse'+i+' .ClasseContraintes')[j].value.split('¤')[1] //selecteur pour trouver l'option choisie
+      nombrePourOption = $('#headclasse'+i+' .ClasseContraintes')[j+1].value //input correpondant à l'option
+      constraintLine += `<div id="div${optionConstraint+i}" class="countdiv"> ${optionConstraint} : <span id="count${optionConstraint+i}">0</span> / <input class="cstr readonly" type="number" id="count${optionConstraint+i}" value="${nombrePourOption}" ></div>`
+    }
+    $('#headclasse'+i+' .contraintes').html(constraintLine)
+  }
+  $(".readonly").bind('mousedown', preventDefaultBehavior);
+  $(".addContrainteBouton").hide();
+  $("#addClasseButton").hide();
+}
+
+
+function modifierStructure() {
+  $(".ClasseContraintes").removeClass('readonly');
+  $(".ClasseContraintes").unbind('mousedown', preventDefaultBehavior);
+  $(".addContrainteBouton").show();
+}
+ 
 
 //*****************************************************
 
@@ -235,16 +340,30 @@ $("#att").change(function(){
 	}
 })
 
-$("#result").change(function(){
-	if ($("#result").prop("checked")) {
-		$(".result").css("display","inline");
+$("#infoeleve").change(function(){
+	if ($("#infoeleve").prop("checked")) {
+		$(".infoeleve").css("display","inline");
 	} else {
-		$(".result").css("display","none");
+		$(".infoeleve").css("display","none");
 	}
 })
 
-//********* Filtres et tris***************
-
+//************** association/séparations élèves **********************
+window.addEventListener('keydown', function(e) { //gestion du calcul mental avec le clavier
+    if(e.which===69) {
+      interactionEleves('lier')
+    }
+    if(e.which===68) {
+      interactionEleves('delier')
+    }
+    if(e.which===83) {
+      interactionEleves('separer')
+    }
+    if(e.which===88) {
+      interactionEleves('deseparer')
+    }
+  })
+  
 function trierEleves(numclasse) {
   let eleveList = $('#classe'+numclasse+' .eleve');
   let eleveIdList = [];
@@ -288,8 +407,10 @@ function interactionEleves(type) {
       $(selectedList[i]).find('.separer_eleve').show();
     }
   }
+  $('.selected').removeClass('selected');
 }
 
+//********* Filtres et tris***************
 $("#FilterOption").change(function(){
 		if($("#FilterOption").val() == "NoFilter") {
 			$("#divlistEleve .eleve").css('display','block')
@@ -298,7 +419,6 @@ $("#FilterOption").change(function(){
 			$("#divlistEleve .eleve."+$("#FilterOption").val()).css('display','block');
 		}
 })
-
 
 $("#langfiltreALL").change(function(){
 	if ($("#langfiltreALL").prop("checked")) {
@@ -366,6 +486,7 @@ function selectEleve(elem) {
 
 function ajouterEleve(numclasse) {
 	$("#classe"+numclasse).append($('.selected'));
+  $('.selected').show();
 	$('.selected').removeClass('selected');
 	majcounter();
   checkLink();
@@ -395,51 +516,27 @@ function toggleCount() {
 
 //**********maj des compteurs, contrôle des contraintes******
 function majcounter() {
-	var i, eleveList, elevenumber;
+	var i, eleveList, elevenumber, optionList;
 	for (i=1 ; i<7 ; i++) {
 		eleveList = $('#classe'+i).children();
 		elevenumber = eleveList.length;
 		$('#countclasse'+i).text(elevenumber);
-		eleveList = $('#classe'+i+' .Latin');
-		elevenumber = eleveList.length;
-		$('#countlatin'+i).text(elevenumber);
-		if (elevenumber == $('#countlatincstr'+i).val()) {
-			$('#divlatin'+i).removeClass('countKO');
-			$('#divlatin'+i).addClass('countOK');
-		} else {
-			$('#divlatin'+i).removeClass('countOK');
-			$('#divlatin'+i).addClass('countKO');
-		}
-		eleveList = $('#classe'+i+' .ALL');
-		elevenumber = eleveList.length;
-		$('#countAll'+i).text(elevenumber);
-		if (elevenumber == $('#countallcstr'+i).val()) {
-			$('#divall'+i).removeClass('countKO');
-			$('#divall'+i).addClass('countOK');
-		} else {
-			$('#divall'+i).removeClass('countOK');
-			$('#divall'+i).addClass('countKO');
-		}
-		eleveList = $('#classe'+i+' .ESP');
-		elevenumber = eleveList.length;
-		$('#countesp'+i).text(elevenumber);
-		if (elevenumber == $('#countespcstr'+i).val()) {
-			$('#divesp'+i).removeClass('countKO');
-			$('#divesp'+i).addClass('countOK');
-		} else {
-			$('#divesp'+i).removeClass('countOK');
-			$('#divesp'+i).addClass('countKO');
-		}
-		eleveList = $('#classe'+i+' .ANGL');
-		elevenumber = eleveList.length;
-		$('#countangl'+i).text(elevenumber);
-		if (elevenumber == $('#countanglcstr'+i).val()) {
-			$('#divangl'+i).removeClass('countKO');
-			$('#divangl'+i).addClass('countOK');
-		} else {
-			$('#divangl'+i).removeClass('countOK');
-			$('#divangl'+i).addClass('countKO');
-		}
+    //on parcourt les différentes options, pour chaque option on compte.
+    /*
+    optionList = ; //TODO liste des options
+    for (j=0: j<optionList.length ; j++) {
+      eleveList = $('#classe'+i+' .'+optionList[j]);
+      elevenumber = eleveList.length;
+      $('#count'+optionList[j]+i).text(elevenumber);
+      if (elevenumber == $('#count'+optionList[j]+'cstr'+i).val()) {
+        $('#div'+optionList[j]+i).removeClass('countKO');
+        $('#div'+optionList[j]+i).addClass('countOK');
+      } else {
+        $('#div'+optionList[j]+i).removeClass('countOK');
+        $('#div'+optionList[j]+i).addClass('countKO');
+      }
+    }
+    */
 	}
 }
 

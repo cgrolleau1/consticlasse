@@ -10,13 +10,10 @@
 		<h1>Application d'aide à la constitution des classes.</h1>
 		<div id="header">
 		<div>
-			Nombre de divisions <input id="nbclasses" type="number"/> 
-		</div>
-		<div>
 			<textarea id="eleveList">Copier ici la liste des élèves </textarea>
 		</div>
 		<div>
-			<span class="myButton" onclick="init()"> Créer la matrice </span>
+			<span class="myButton" onclick="init()"> Commencer </span>
 		</div>
 		</div>
 		<div>
@@ -28,7 +25,7 @@
 			Mettre en évidence :
 			<ul>
 				<li><input type="checkbox" id="sex" > <label for="sex">Sexe</label> (fond : jaune fille, blanc gars) </li>
-				<li><input type="checkbox" id="option" > <label for="option">Option</label> (gras : latin, italique : chorale) </li>
+				<li><input type="checkbox" id="option" > <label for="option">Options</label> (ajouter choix pour typo selon options) </li>
 				<li><input type="checkbox" id="lang" > <label for="lang">Langue</label> (Contour : Jaune All LV2, Bleu Angl LV2, Rouge Esp LV2) </li>
 				<li><input type="checkbox" id="att" > <label for="att">Attitude</label> (Police : rouge : agité, orange : bon public, noir : RAS, vert : moteur) </li>
 				<span id="changeAttspan"> Changer l'attitude des élèves sélectionnés : 
@@ -46,17 +43,18 @@
       <span class="toggleButton" onclick="toggleCount()"> Afficher/Cacher les compteurs.</span>
       <span class="toggleButton" onclick="zoomName()"> Nom uniquement.</span>
 		</div>
+    <span class="myButton" id="addClasseButton" onclick="createClasse()"> Ajouter une classe </span><span class="myButton" onclick="validerStructure()"> Vérouiller la structure </span>
 		<div id="boxClasses">
 			<div id="allClasses">
 			</div>
 			<div id="sort">
 				<div>
-          <span><image class="icone" src="lier.png" onclick="interactionEleves('lier')"/></span>
-          <span><image class="icone" src="delier.png" onclick="interactionEleves('delier')"/></span>
+          <span><image class="icone" src="lier.png" title="e" onclick="interactionEleves('lier')"/></span>
+          <span><image class="icone" src="delier.png" title="d" onclick="interactionEleves('delier')"/></span>
         </div>
         <div>
-          <span><image class="icone" src="separer.png" onclick="interactionEleves('separer')"/></span>
-          <span><image class="icone" src="deseparer.png" onclick="interactionEleves('deseparer')"/></span>
+          <span><image class="icone" src="separer.png" title="s" onclick="interactionEleves('separer')"/></span>
+          <span><image class="icone" src="deseparer.png" title="x" onclick="interactionEleves('deseparer')"/></span>
         </div>
         Filtre, afficher uniquement :
 				<ul>		
