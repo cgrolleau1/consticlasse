@@ -101,11 +101,6 @@ function createClasse() {  //création des colonnes pour les classes
     ' <div id="message'+i+'" class="message"></div><div class="countdiv">( <span id="countclasse'+i+'" class="countclasse">0</span> élèves) / <input type="number" class="cstr" id="countclassecstr'+i+'" ></div><div class="contraintes">'+selectList+'</div>'+
     ' <div><span class="myButton addContrainteBouton" onclick="addSelectList('+i+')"> Ajouter une contrainte de classe </span></div></div>';
     // on récupère les entetes du csv importé pour proposer des elects : 1 premier entete de colonne, 2 une des valeurs presente, input nombre voulu.
-  /*  ' <div class="countdiv" id="divopt1'+i+'"> <input id="opt1abel" type ="texte"> <span id="countopt1'+i+'"> 0 </span> / <input class="cstr" type="number" id="countopt1cstr'+i+'"></div>'+
-    ' <div id="divall'+i+'" class="countdiv"> ALL  : <span id="countAll'+i+'">0</span> / <input class="cstr" type="number" id="countallcstr'+i+'"></div><div id="divesp'+i+'" class="countdiv"> ESP  : <span id="countesp'+i+'">0</span> / <input class="cstr" type="number" id="countespcstr'+i+'"></div><div id="divangl'+i+'" class="countdiv"> ANGL : <span id="countangl'+i+'">0</span> / <input type="number" class="cstr" id="countanglcstr'+i+'"></div></div>';*/
-	//for (i=1; i<(Number.parseInt(nbclasses)+1); i++) {
-	//	divclasses = divclasses + '<div id="classe'+i+'" ondrop="drop(event)" ondragover="allowDrop(event)" class="classe">  </div>'
-	//}
 	$("#allClasses").append('<div>' + divclasses + '<div id="classe'+i+'" ondrop="drop(event)" ondragover="allowDrop(event)" class="classe"></div>  </div>');
 }
 
@@ -151,7 +146,7 @@ function createEleveList() { 	//Création de la banque d'élèves.
     spanoption = ''
     for (j=2; j<infos.length ; j++) {
       classEleve = classEleve + ' ' + eleveList.data[i][infos[j]]
-      spanoption = `<span hidden class="${infos[j]}eleve">${eleveList.data[i][infos[j]]}</span> ` 
+      spanoption = `<span class="${infos[j]}eleve hidden">${eleveList.data[i][infos[j]]}</span> ` 
     }
     divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
 	}
@@ -160,8 +155,13 @@ function createEleveList() { 	//Création de la banque d'élèves.
 }
 
 function init() {
-	createEleveList();
+	var selectfiltre =''
+  createEleveList();
 	createClasse();
+  for (let j=0; j<optionsList.length ; j++) {
+    selectfiltre += `<option value="${optionsList[j]}">${optionsList[j]}</option>`;
+  }
+  $('#FilterOption').append(selectfiltre)
   $('.img_eleve').hide();
   $('.message').hide();
 }

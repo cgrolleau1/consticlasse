@@ -109,6 +109,9 @@
 		grid-template-columns: 950px 160px;
 		align-items: start;
 	}
+  .hidden {
+    display:none;
+  }
 	.cstr {
 		width:40px;
 	}
