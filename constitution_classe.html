@@ -14,6 +14,7 @@
 		</div>
 		<div>
 			<span class="myButton" onclick="init()"> Commencer </span>
+      <span class="myButton" onclick="restorefile()"> Restaurer une sauvegarde </span>
 		</div>
 		</div>
 		<div>
@@ -43,7 +44,7 @@
       <span class="toggleButton" onclick="toggleCount()"> Afficher/Cacher les compteurs.</span>
       <span class="toggleButton" onclick="zoomName()"> Nom uniquement.</span>
 		</div>
-    <span class="myButton" id="addClasseButton" onclick="createClasse()"> Ajouter une classe </span><span class="myButton" onclick="validerStructure()"> Vérouiller la structure </span>
+    <span class="myButton" id="addClasseButton" onclick="createClasse()"> Ajouter une classe </span><span class="myButton" id="lockButton" onclick="validerStructure()"> Vérouiller la structure </span>
 		<div id="boxClasses">
 			<div id="allClasses">
 			</div>
@@ -61,7 +62,6 @@
 				<li>
 					<select name="Option" id="FilterOption">
 						<option value="NoFilter">--Choisir une option--</option>
-
 					</select>
 				</li>
 				<li><input type="checkbox" id="langfiltreALL" class="filter"> les LV2 Allemands </li>
@@ -75,6 +75,7 @@
 				ondragover="allowDrop(event)" > 
 			</div>
 		</div>
+    </div>
 		<p>&copy; CG-CONSTICLASSE. <image src="license.png"/> C.GROLLEAU juin 2020 : <a href="https://sites.google.com/view/relema">https://sites.google.com/view/relema</a></p>
 		
 	</body>

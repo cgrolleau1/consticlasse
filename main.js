@@ -6,7 +6,7 @@
 
 var constraintChoiceSelect = '';
 var optionsList =[];
-
+var eleveList;
 //********* Gestion du glissé déposé **********
 function allowDrop(ev) {
 	ev.preventDefault();
@@ -41,7 +41,7 @@ function createClasse() {  //création des colonnes pour les classes
 	divclasses = '';
 	nbclasses = $(".headerClasse").length;
   i = nbclasses;
-  elevecsv = $("#eleveList").val();
+  /*elevecsv = $("#eleveList").val();
 	eleveList = Papa.parse(elevecsv, {  //utilisation du package papaparse pour convertir le fichier csv en objet JS
 			download: false,
 			delimiter: "",	// auto-detect
@@ -67,7 +67,7 @@ function createClasse() {  //création des colonnes pour les classes
 			beforeFirstChunk: undefined,
 			withCredentials: undefined,
 			transform: undefined,
-		});
+		});*/
 	elistlength = eleveList.data.length; 
 	divEleves = '';
 	infos = Object.keys(eleveList.data[0])
@@ -109,7 +109,7 @@ function addSelectList(classNum) {
 }
 
 function createEleveList() { 	//Création de la banque d'élèves.
-	var elevecsv, eleveList, elistlength, i, divEleves, classEleve, infos;
+	var elevecsv, elistlength, i, divEleves, classEleve, infos;
 	elevecsv = $("#eleveList").val();
 	eleveList = Papa.parse(elevecsv, {  //utilisation du package papaparse pour convertir le fichier csv en objet JS
 			download: false,
@@ -171,23 +171,51 @@ var preventDefaultBehavior = function(e) {
 }
 
 function validerStructure() {
-  var i, j, constraintLines, constraintLinesNb, constraintLine, classes;
+  var i, j, constraintLines, constraintLinesNb, constraintLine, classes,eleveElemList, listeClasse,
+    listOpt, listeoptionClasse =[], listOptionsEleve, ClassesForStudent, countoption, allOptions;
+  $('.selected').removeClass('selected');
   $(".ClasseContraintes").addClass('readonly');
   $(".ClasseContraintes").bind('mousedown', preventDefaultBehavior);
   classes = $(".headerClasse");
+  allOptions = [];
   for (i=0; i<classes.length+1;i++) { //on parcourt chaque classe.
     constraintLines = $('#headclasse'+i+'  .ClasseContraintes'); //récupère les différentes lignes de contrainte
     constraintLinesNb = constraintLines.length;
     constraintLine = '';
+    listOpt = [];
     for (j=0 ; j<constraintLinesNb ; j=j+2) { //pour chaque classe on parcourt chaque ligne pour remplacer les champs à remplir par ce qui a été vérouillé.
-      optionConstraint = $('#headclasse'+i+' .ClasseContraintes')[j].value.split('¤')[1] //selecteur pour trouver l'option choisie
-      nombrePourOption = $('#headclasse'+i+' .ClasseContraintes')[j+1].value //input correpondant à l'option
-      constraintLine += `<div id="div${optionConstraint+i}" class="countdiv"> ${optionConstraint} : <span id="count${optionConstraint+i}">0</span> / <input class="cstr readonly" type="number" id="count${optionConstraint+'cstr'+i}" value="${nombrePourOption}" ></div>`
+      optionConstraint = $('#headclasse'+i+' .ClasseContraintes')[j].value.split('¤')[1]; //selecteur pour trouver l'option choisie
+      nombrePourOption = $('#headclasse'+i+' .ClasseContraintes')[j+1].value; //input correpondant à l'option
+      constraintLine += `<div id="div${optionConstraint+i}" class="countdiv"> ${optionConstraint} : <span id="count${optionConstraint+i}">0</span> / <input class="cstr readonly" type="number" id="count${optionConstraint+'cstr'+i}" value="${nombrePourOption}" ></div>`;
+      listOpt.push(optionConstraint);
+      allOptions.push(optionConstraint);
     }
-    $('#headclasse'+i+' .contraintes').html(constraintLine)
+    $('#headclasse'+i+' .contraintes').html(constraintLine);
+    listeoptionClasse.push({options:listOpt});
+  }
+  eleveElemList = $('.eleve');
+  for (i=0; i<eleveElemList.length ; i++) { //on parcourt chaque eleve. Si les options de l'eleve ne sont présentes que dans une seule classe ils sont mis dans cette classe
+    listOptionsEleve = $($('.eleve')[i]).attr('class').split(' ');    
+    ClassesForStudent = [];
+    for (m=1; m<=classes.length ; m++) {
+      countoption = 0;
+      for (j=4; j<listOptionsEleve.length ; j++) {
+        if (listOptionsEleve[j]=="" || allOptions.indexOf(listOptionsEleve[j])<0 || listeoptionClasse[m].options.indexOf(listOptionsEleve[j])>=0) {
+          countoption += 1;
+        } 
+      }
+      if (countoption === (listOptionsEleve.length - 4)) {
+        ClassesForStudent.push(m);
+      }
+    }
+    if (ClassesForStudent.length == 1) {
+      selectEleve($($('.eleve')[i]))
+      ajouterEleve(ClassesForStudent[0])
+    }
   }
   $(".readonly").bind('mousedown', preventDefaultBehavior);
   $(".addContrainteBouton").hide();
+  $(".lockButton").hide();
   $("#addClasseButton").hide();
 }
 
@@ -234,35 +262,19 @@ function exportfile() {
 	downloadfile(file);
 }
 
-function savefile() {
-	var eleveArray = [], elevenumber, eleveList, file, i, k, objEleve ={};
-	for (i=1 ; i<7 ; i++) {
-			eleveList = $('#classe'+i).children();
-			elevenumber = eleveList.length;
-			for (k=0; k<elevenumber ; k++) {
-				objEleve = {
-					nom: $('.nomeleve', eleveList[k]).html(),
-					prenom: $('.prenomeleve', eleveList[k]).html(),
-					sexe: $('.sexeleve', eleveList[k]).html(),
-					classe: 'classe'+i,
-					oldclasse: $('.oldclass', eleveList[k]).html(),
-					opt: $('.opteleve', eleveList[k]).html(),
-					LV2: $('.LV2eleve', eleveList[k]).html()
-				};
-				eleveArray.push(objEleve);
-			}
-	}	
-	file = Papa.unparse(eleveArray, {
-			quotes: false, //or array of booleans
-			quoteChar: '"',
-			escapeChar: '"',
-			delimiter: ",",
-			header: true,
-			newline: "\r\n",
-			skipEmptyLines: false, //or 'greedy',
-			columns: null //or array of strings
-		});		
-	downloadfile(file);
+function savefile() {	
+	downloadfile($('#boxClasses').html());
+}
+
+function restorefile() {
+  $('#boxClasses').html($("#eleveList").val())
+  let contraintes = $(".countdiv");
+  for (let i=0 ; i<contraintes.length ; i++) {
+    if ($(contraintes[i]).attr('id') && optionsList.indexOf($(contraintes[i]).attr('id').substr(3,$(contraintes[i]).attr('id').length-4))<0 ) {
+      optionsList.push($(contraintes[i]).attr('id').substr(3,$(contraintes[i]).attr('id').length-4));
+    }
+  }
+  $('#lockButton').hide();
 }
 
 function downloadfile(string) {
@@ -344,9 +356,9 @@ $("#att").change(function(){
 
 $("#infoeleve").change(function(){
 	if ($("#infoeleve").prop("checked")) {
-		$(".infoeleve").css("display","inline");
+		$(".infoeleve").removeClass("hidden");
 	} else {
-		$(".infoeleve").css("display","none");
+		$(".infoeleve").addClass("hidden");
 	}
 })
 
