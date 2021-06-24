@@ -140,7 +140,7 @@ function createEleveList() { 	//Création de la banque d'élèves.
 	elistlength = eleveList.data.length; 
 	divEleves = '';
 	infos = Object.keys(eleveList.data[0]) //on récupère les entetes des colonnes du csv importé pour construire les div eleves.
-  for (i=0; i<elistlength; i++) {  //On parcours chaque élève, à chaque élève on créé une div avec tous les éléments pour faire facilement les filtres et reconstruire un fichier classe.
+  for (i=0; i<elistlength; i++) {  //On parcourt chaque élève, à chaque élève on créé une div avec tous les éléments pour faire facilement les filtres et reconstruire un fichier classe.
     div1eleve = '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="eleve '+eleveList.data[i].sexe+' ';
 		classEleve = 'eleve ';
     spanoption = ''
@@ -151,7 +151,8 @@ function createEleveList() { 	//Création de la banque d'élèves.
     divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
 	}
 	$('#divlistEleve').html(divEleves);
-  $('.nom_init').hide()
+  $('.nom_init').hide();
+  filterHandlers();
 }
 
 function init() {
@@ -215,7 +216,7 @@ function validerStructure() {
   }
   $(".readonly").bind('mousedown', preventDefaultBehavior);
   $(".addContrainteBouton").hide();
-  $(".lockButton").hide();
+  $("#lockButton").hide();
   $("#addClasseButton").hide();
 }
 
@@ -275,6 +276,7 @@ function restorefile() {
     }
   }
   $('#lockButton').hide();
+  filterHandlers();
 }
 
 function downloadfile(string) {
@@ -425,6 +427,9 @@ function interactionEleves(type) {
 }
 
 //********* Filtres et tris***************
+
+function filterHandlers() {
+
 $("#FilterOption").change(function(){
 		if($("#FilterOption").val() == "NoFilter") {
 			$("#divlistEleve .eleve").css('display','block')
@@ -474,6 +479,7 @@ $("#attfiltremoteurs").change(function(){
 	}
 })
 
+}
 //**********Sélection de plusieurs élèves*********
 
 function selectEleve(elem) {

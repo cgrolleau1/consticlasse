@@ -5,11 +5,9 @@ Ce(tte) œuvre est mise à disposition selon les termes de la Licence Creative C
 
 Pour modèle pour le csv à importer voir le fichier listeexemple.csv
 
-Les options prises en compte :
-* Latin (attention penser à la majuscule).
-* Chorale
-* LCEESP
-* LCEALL
+Pour la mise en forme :
+* Latin (penser à la majuscule)
+
 
 LV2 :
 * Allemand (à noter ALL dans le csv)

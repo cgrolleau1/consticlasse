@@ -1,8 +1,8 @@
 nom,prenom,sexe,oldclasse,opt,LV2,attitude,info
-Nom1,prenom1,F,5eme1,,ESP,,
+Nom1,prenom1,F,5eme1,,ESP,,PAP
 Nom2,prenom2,G,5eme1,,,,
-Nom3,prenom3,G,5eme1,,ESP,,
-Nom4,prenom4,G,5eme1,,ANGL,,
+Nom3,prenom3,G,5eme1,,ESP,,PPRE
+Nom4,prenom4,G,5eme1,,ANGL,,PAP
 Nom5,prenom5,F,5eme1,Latin,ALL,,
 Nom6,prenom6,G,5eme1,,ALL,,
 Nom7,prenom7,G,5eme1,,ESP,Agite,
