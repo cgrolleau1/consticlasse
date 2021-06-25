@@ -148,7 +148,7 @@ function createEleveList() { 	//Création de la banque d'élèves.
       classEleve = classEleve + ' ' + eleveList.data[i][infos[j]]
       spanoption = `<span class="${infos[j]}eleve hidden">${eleveList.data[i][infos[j]]}</span> ` 
     }
-    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
+    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
 	}
 	$('#divlistEleve').html(divEleves);
   $('.nom_init').hide();
@@ -365,7 +365,7 @@ $("#infoeleve").change(function(){
 })
 
 //************** association/séparations élèves **********************
-window.addEventListener('keydown', function(e) { //gestion du calcul mental avec le clavier
+window.addEventListener('keydown', function(e) { 
     if(e.which===69) {
       interactionEleves('lier')
     }
@@ -558,12 +558,16 @@ function majcounter() {
 }
 
 function checkLink() {
-  var i, eleveList, elevenumber, probleme,listeliens;
+  var i, eleveList, elevenumber, probleme,listeliens,counts={},m,num,listeOldClasseInClasse,n;
   for (i=1 ; i<7 ; i++) {
 		probleme = '';
     eleveList = $('#classe'+i).children();
     coupleListe = [];
+    oldClasseList =[];
     for(let j=0; j<eleveList.length; j++) {
+      //Liste des classes d'origine.
+      oldClasseList.push($(eleveList[j]).attr('data-oldClassse'))
+      //verification des liens.
       if ($(eleveList[j]).attr('data-linked')) {
         //on récupère la liste des élèves liés et on vérifie qu'ils sont bien dans cette classe.
         listeliens = $(eleveList[j]).attr('data-linked').split('¤');
@@ -583,6 +587,16 @@ function checkLink() {
             probleme = probleme + ` ${$(eleveList[j]).attr('id')} et ${listeliens[k]} ne doivent pas être dans la même classe ! \n `
           }
         }
+      }
+    }
+    for (m = 0; m< oldClasseList.length; m++) {
+      num = oldClasseList[m]; 
+      counts[num] = counts[num] ? counts[num]+1 : 1; 
+    }
+    listeOldClasseInClasse = Object.keys(counts);
+    for (n=0; n<listeOldClasseInClasse.length ;n++) {
+      if (counts[listeOldClasseInClasse[n]]==1) {
+        probleme = probleme + `Un seul élève de ${listeOldClasseInClasse[n]} `;
       }
     }
     if (probleme) {
