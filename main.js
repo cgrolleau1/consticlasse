@@ -42,33 +42,6 @@ function createClasse() {  //création des colonnes pour les classes
 	divclasses = '';
 	nbclasses = $(".headerClasse").length;
   i = nbclasses;
-  /*elevecsv = $("#eleveList").val();
-	eleveList = Papa.parse(elevecsv, {  //utilisation du package papaparse pour convertir le fichier csv en objet JS
-			download: false,
-			delimiter: "",	// auto-detect
-			newline: "",	// auto-detect
-			quoteChar: '"',
-			escapeChar: '"',
-			header: true,
-			transformHeader: undefined,
-			dynamicTyping: false,
-			preview: 0,
-			encoding: "",
-			worker: false,
-			comments: false,
-			step: undefined,
-			complete: undefined,
-			error: undefined,
-			download: false,
-			downloadRequestHeaders: undefined,
-			downloadRequestBody: undefined,
-			skipEmptyLines: false,
-			chunk: undefined,
-			fastMode: undefined,
-			beforeFirstChunk: undefined,
-			withCredentials: undefined,
-			transform: undefined,
-		});*/
 	elistlength = eleveList.data.length; 
 	divEleves = '';
 	infos = Object.keys(eleveList.data[0])
@@ -99,7 +72,7 @@ function createClasse() {  //création des colonnes pour les classes
   divclasses = divclasses + 
     '<div id="headclasse'+i+'" class="headerClasse"><image src="plus.png" id="" onclick="ajouterEleve('+i+')" class="addButton"/>' +
     '<image src="tri.png" id="" onclick="trierEleves('+i+')" class="triButton"/>Classe'+ i +
-    ' <div id="message'+i+'" class="message"></div><div class="countdiv">( <span id="countclasse'+i+'" class="countclasse">0</span> élèves) / <input type="number" class="cstr" id="countclassecstr'+i+'" ></div><div class="contraintes">'+selectList+'</div>'+
+    ' <div id="message'+i+'" class="message"></div><div class="countdiv">( <span id="countclasse'+i+'" class="countclasse">0</span> élèves) / <input type="number" class="cstr" id="countclassecstr'+i+'" ></div><div id="pcgirls'+i+'" class="pcg"></div><div class="contraintes">'+selectList+'</div>'+
     ' <div><span class="myButton addContrainteBouton" onclick="addSelectList('+i+')"> Ajouter une contrainte de classe </span></div></div>';
     // on récupère les entetes du csv importé pour proposer des elects : 1 premier entete de colonne, 2 une des valeurs presente, input nombre voulu.
 	$("#allClasses").append('<div>' + divclasses + '<div id="classe'+i+'" ondrop="drop(event)" ondragover="allowDrop(event)" class="classe"></div>  </div>');
@@ -557,8 +530,24 @@ function toggleCount() {
 function majcounter() {
 	var i, eleveList, elevenumber, optionList;
 	for (i=1 ; i<7 ; i++) {
-		eleveList = $('#classe'+i).children();
+    // pourcentage de filles
+    eleveList = $('#classe'+i).children();
 		elevenumber = eleveList.length;
+    if (elevenumber>0) {
+        eleveList = $('#classe'+i+' .F');
+        pcfilles = (100*eleveList.length/elevenumber).toFixed(0);
+        $('#pcgirls'+i).text(pcfilles+"% de filles");
+        if (Math.abs(pcfilles-50)>10) {
+      $('#pcgirls'+i).css("color","red");
+        } else {
+      $('#pcgirls'+i).css("color","");
+        }
+        $('#pcgirls'+i).css("visibility","visible");
+    }
+    else {
+        $('#pcgirls'+i).css("visibility","hidden");
+    }
+		
 		$('#countclasse'+i).text(elevenumber);
     //on parcourt les différentes options, pour chaque option on compte.
     for (j=0; j<optionsList.length ; j++) {
@@ -577,12 +566,13 @@ function majcounter() {
 }
 
 function checkLink() {
-  var i, eleveList, elevenumber, probleme,listeliens,counts={},m,num,listeOldClasseInClasse,n;
+  var i, eleveList, elevenumber, probleme,listeliens,counts,m,num,listeOldClasseInClasse,n;
   for (i=1 ; i<7 ; i++) {
 		probleme = '';
     eleveList = $('#classe'+i).children();
     coupleListe = [];
     oldClasseList =[];
+    counts={};
     for(let j=0; j<eleveList.length; j++) {
       //Liste des classes d'origine.
       oldClasseList.push($(eleveList[j]).attr('data-oldClassse'))
