@@ -6,6 +6,7 @@
 
 var constraintChoiceSelect = '';
 var optionsList =[];
+var AllOldClasseList = [];
 var eleveList;
 //********* Gestion du glissé déposé **********
 function allowDrop(ev) {
@@ -149,7 +150,10 @@ function createEleveList() { 	//Création de la banque d'élèves.
       spanoption = `<span class="${infos[j]}eleve hidden">${eleveList.data[i][infos[j]]}</span> ` 
     }
     divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
-	}
+	  if (AllOldClasseList.indexOf(eleveList.data[i].oldclasse)<0) {
+      AllOldClasseList.push(eleveList.data[i].oldclasse)
+    }  
+  }
 	$('#divlistEleve').html(divEleves);
   $('.nom_init').hide();
   filterHandlers();
@@ -163,6 +167,12 @@ function init() {
     selectfiltre += `<option value="${optionsList[j]}">${optionsList[j]}</option>`;
   }
   $('#FilterOption').append(selectfiltre)
+  selectfiltre = '';
+  for (let j=0; j<AllOldClasseList.length ; j++) {
+    selectfiltre += `<option value="${AllOldClasseList[j]}">${AllOldClasseList[j]}</option>`;
+  }
+  $('#FilterClasse').append(selectfiltre)
+  
   $('.img_eleve').hide();
   $('.message').hide();
 }
@@ -436,6 +446,15 @@ $("#FilterOption").change(function(){
 		} else {
 			$("#divlistEleve .eleve:not('."+$("#FilterOption").val()+"\')").css('display','none');
 			$("#divlistEleve .eleve."+$("#FilterOption").val()).css('display','block');
+		}
+})
+
+$("#FilterClasse").change(function(){
+		if($("#FilterClasse").val() == "NoFilter") {
+			$("#divlistEleve .eleve").css('display','block')
+		} else {
+			$("#divlistEleve .eleve:not('."+$("#FilterClasse").val()+"\')").css('display','none');
+			$("#divlistEleve .eleve."+$("#FilterClasse").val()).css('display','block');
 		}
 })
 
