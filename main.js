@@ -59,7 +59,7 @@ function createClasse() {  //création des colonnes pour les classes
   for (i=2; i<constraintchoice.length ; i++) {
     optionList = '';
     for (j=0 ; j < constraintchoice[i].listvalues.length ; j++) {
-      if (constraintchoice[i].columnName !== 'sexe' && constraintchoice[i].columnName !== 'oldclasse' && constraintchoice[i].columnName !== 'info' && constraintchoice[i].columnName !== 'attitude' && constraintchoice[i].listvalues[j]) {
+      if (constraintchoice[i].columnName !== 'sexe' && constraintchoice[i].columnName !== 'oldclasse' && constraintchoice[i].columnName !== 'info' && constraintchoice[i].columnName !== 'plans' && constraintchoice[i].columnName !== 'suivi' && constraintchoice[i].columnName !== 'resultats'  && constraintchoice[i].columnName !== 'attitude' && constraintchoice[i].listvalues[j]) {
         optionList += `<option value="${constraintchoice[i].columnName + '¤' +constraintchoice[i].listvalues[j]}">${constraintchoice[i].columnName +' : '+constraintchoice[i].listvalues[j]}</option>`;
         optionsList.push(constraintchoice[i].listvalues[j]);
       }
@@ -83,7 +83,7 @@ function addSelectList(classNum) {
 }
 
 function createEleveList() { 	//Création de la banque d'élèves.
-	var elevecsv, elistlength, i, divEleves, classEleve, infos;
+	var elevecsv, elistlength, i, divEleves, classEleve, infos, planEleve;
 	elevecsv = $("#eleveList").val();
 	eleveList = Papa.parse(elevecsv, {  //utilisation du package papaparse pour convertir le fichier csv en objet JS
 			download: false,
@@ -117,12 +117,38 @@ function createEleveList() { 	//Création de la banque d'élèves.
   for (i=0; i<elistlength; i++) {  //On parcourt chaque élève, à chaque élève on créé une div avec tous les éléments pour faire facilement les filtres et reconstruire un fichier classe.
     div1eleve = '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="eleve '+eleveList.data[i].sexe+' ';
 		classEleve = 'eleve ';
-    spanoption = ''
+    spanoption = '';
+    planEleve = '';
     for (j=2; j<infos.length ; j++) {
-      classEleve = classEleve + ' ' + eleveList.data[i][infos[j]]
-      spanoption = `<span class="${infos[j]}eleve hidden">${eleveList.data[i][infos[j]]}</span> ` 
+      if (infos[j] !== 'info' && infos[j] !== 'plans') {
+        classEleve = classEleve + ' ' + eleveList.data[i][infos[j]]
+      }
+      spanoption += `<span class="${infos[j]}eleve hidden">${eleveList.data[i][infos[j]]}</span> ` 
+      if (infos[j] === 'plans') {
+        if (eleveList.data[i][infos[j]].substr(0,3) === 'SEG') {
+          planEleve = `<image src="SEGPA.png" class="SEGPA" title="${eleveList.data[i][infos[j]]}">` 
+          classEleve = classEleve + ' ' + 'SEGPA'         
+        }
+        if (eleveList.data[i][infos[j]].substr(0,3) === 'PAI') {
+          planEleve = `<image src="PAI.png" class="PAI" title="${eleveList.data[i][infos[j]]}">`  
+          classEleve = classEleve + ' ' + 'PAI'
+        }
+        if (eleveList.data[i][infos[j]].substr(0,3) === 'PPR') {
+          planEleve = `<image src="PPRE.png" class="PPRE" title="${eleveList.data[i][infos[j]]}">`
+          classEleve = classEleve + ' ' + 'PPRE'          
+        }
+        if (eleveList.data[i][infos[j]].substr(0,3) === 'PPS') {
+          planEleve = `<image src="PPS.png" class="PPS" title="${eleveList.data[i][infos[j]]}">`  
+          classEleve = classEleve + ' ' + 'PPS'
+        }
+        if (eleveList.data[i][infos[j]].substr(0,3) === 'PAP') {
+          planEleve = `<image src="PAP.png" class="PAP" title="${eleveList.data[i][infos[j]]}">`  
+          classEleve = classEleve + ' ' + 'PAP'
+        }
+      }
     }
-    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'"><image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
+    
+    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'">'+planEleve+'<image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
 	  if (AllOldClasseList.indexOf(eleveList.data[i].oldclasse)<0) {
       AllOldClasseList.push(eleveList.data[i].oldclasse)
     }  
@@ -145,7 +171,12 @@ function init() {
     selectfiltre += `<option value="${AllOldClasseList[j]}">${AllOldClasseList[j]}</option>`;
   }
   $('#FilterClasse').append(selectfiltre)
-  
+  selectfiltre = '';
+  var listePlans = ['PPRE','PAP','SEGPA','PPS','PAI'];
+  for (let j=0; j<listePlans.length ; j++) {
+    selectfiltre += `<option value="${listePlans[j]}">${listePlans[j]}</option>`;
+  }
+  $('#FilterPlans').append(selectfiltre)
   $('.img_eleve').hide();
   $('.message').hide();
 }
@@ -296,6 +327,22 @@ $("#sex").change(function(){
 	}
 })
 
+$("#result").change(function(){
+	if ($("#result").prop("checked")) {
+		$(".5").addClass('tresbien');
+    $(".4").addClass('bien');
+    $(".3").addClass('moyen');
+    $(".2").addClass('bof');
+    $(".1").addClass('argh');
+	} else {
+    $(".5").removeClass('tresbien');
+    $(".4").removeClass('bien');
+    $(".3").removeClass('moyen');
+    $(".2").removeClass('bof');
+    $(".1").removeClass('argh');
+	}
+})
+
 $("#option").change(function(){
 	if ($("#option").prop("checked")) {
 		$(".Latin").css("font-weight",'bolder');
@@ -428,6 +475,15 @@ $("#FilterClasse").change(function(){
 		} else {
 			$("#divlistEleve .eleve:not('."+$("#FilterClasse").val()+"\')").css('display','none');
 			$("#divlistEleve .eleve."+$("#FilterClasse").val()).css('display','block');
+		}
+})
+
+$("#FilterPlans").change(function(){
+		if($("#FilterPlans").val() == "NoFilter") {
+			$("#divlistEleve .eleve").css('display','block')
+		} else {
+			$("#divlistEleve .eleve:not('."+$("#FilterPlans").val()+"\')").css('display','none');
+			$("#divlistEleve .eleve."+$("#FilterPlans").val()).css('display','block');
 		}
 })
 

@@ -26,6 +26,7 @@
 			Mettre en évidence :
 			<ul>
 				<li><input type="checkbox" id="sex" > <label for="sex">Sexe</label> (fond : jaune fille, blanc gars) </li>
+        <li><input type="checkbox" id="result" > <label for="result">Résultats</label> (fond : vert - rouge) </li>
 				<li><input type="checkbox" id="option" > <label for="option">Options</label> (Latin : gras) </li>
 				<li><input type="checkbox" id="lang" > <label for="lang">Langue</label> (Contour : Jaune All LV2, Bleu Angl LV2, Rouge Esp LV2) </li>
 				<li><input type="checkbox" id="att" > <label for="att">Attitude</label> (Police : rouge : agité, orange : bon public, noir : RAS, vert : moteur) </li>
@@ -66,10 +67,13 @@
           <select name="Classe" id="FilterClasse">
 						<option value="NoFilter">--Choisir une classe--</option>
 					</select>
+          <select name="Classe" id="FilterPlans">
+						<option value="NoFilter">--Choisir un plan--</option>
+					</select>
 				</li>
-				<li><input type="checkbox" id="langfiltreALL" class="filter"> les LV2 Allemands </li>
+			<!--	<li><input type="checkbox" id="langfiltreALL" class="filter"> les LV2 Allemands </li>
 				<li><input type="checkbox" id="langfiltreANGL" class="filter"> les LV2 Anglais </li>
-				<li><input type="checkbox" id="langfiltreESP" class="filter"> les LV2 Espagnol </li>
+				<li><input type="checkbox" id="langfiltreESP" class="filter"> les LV2 Espagnol </li> -->
 				<li><input type="checkbox" id="attfiltreagite" class="filter"> les élèves "agités" </li>
 				<li><input type="checkbox" id="attfiltremoteurs" class="filter"> les élèves "moteurs" </li>
 			</ul>
