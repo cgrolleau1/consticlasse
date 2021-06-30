@@ -249,6 +249,8 @@ function checkStructure() {
   if ($('.eleve').length/2 !== nbEleve) {
     $('#pbStructure').text('problème avec la structure');
     return true
+  } else {
+    $('#pbStructure').text('');
   }
 }
 
@@ -672,7 +674,7 @@ function checkLink() {
     }
     listeOldClasseInClasse = Object.keys(counts);
     for (n=0; n<listeOldClasseInClasse.length ;n++) {
-      if (counts[listeOldClasseInClasse[n]]==1) {
+      if (counts[listeOldClasseInClasse[n]]==1 && $(`.${listeOldClasseInClasse[n]}`).length !== 1) {
         probleme = probleme + `Un seul élève de ${listeOldClasseInClasse[n]} `;
       }
     }
