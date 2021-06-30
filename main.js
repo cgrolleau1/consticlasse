@@ -148,7 +148,7 @@ function createEleveList() { 	//Création de la banque d'élèves.
       }
     }
     
-    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'">'+planEleve+'<image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
+    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'" >'+planEleve+'<image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom"  title="'+classEleve+'">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
 	  if (AllOldClasseList.indexOf(eleveList.data[i].oldclasse)<0) {
       AllOldClasseList.push(eleveList.data[i].oldclasse)
     }  
@@ -193,6 +193,9 @@ function validerStructure() {
   $(".ClasseContraintes").bind('mousedown', preventDefaultBehavior);
   classes = $(".headerClasse");
   allOptions = [];
+  if (checkStructure()) {
+    return;
+  }
   for (i=0; i<classes.length+1;i++) { //on parcourt chaque classe.
     constraintLines = $('#headclasse'+i+'  .ClasseContraintes'); //récupère les différentes lignes de contrainte
     constraintLinesNb = constraintLines.length;
@@ -201,7 +204,9 @@ function validerStructure() {
     for (j=0 ; j<constraintLinesNb ; j=j+2) { //pour chaque classe on parcourt chaque ligne pour remplacer les champs à remplir par ce qui a été vérouillé.
       optionConstraint = $('#headclasse'+i+' .ClasseContraintes')[j].value.split('¤')[1]; //selecteur pour trouver l'option choisie
       nombrePourOption = $('#headclasse'+i+' .ClasseContraintes')[j+1].value; //input correpondant à l'option
-      constraintLine += `<div id="div${optionConstraint+i}" class="countdiv"> ${optionConstraint} : <span id="count${optionConstraint+i}">0</span> / <input class="cstr readonly" type="number" id="count${optionConstraint+'cstr'+i}" value="${nombrePourOption}" ></div>`;
+      if (nombrePourOption > 0) {
+        constraintLine += `<div id="div${optionConstraint+i}" class="countdiv"> ${optionConstraint} : <span id="count${optionConstraint+i}">0</span> / <input class="cstr readonly" type="number" id="count${optionConstraint+'cstr'+i}" value="${nombrePourOption}" ></div>`;
+      } 
       listOpt.push(optionConstraint);
       allOptions.push(optionConstraint);
     }
@@ -225,6 +230,7 @@ function validerStructure() {
     }
     if (ClassesForStudent.length == 1) {
       selectEleve($($('.eleve')[i]))
+      $($('.eleve')[i]).append('<image src="cadenas.png" id="" title="option imposant cette classe" class="image_cadenas" />')
       ajouterEleve(ClassesForStudent[0])
     }
   }
@@ -234,12 +240,18 @@ function validerStructure() {
   $("#addClasseButton").hide();
 }
 
-
-function modifierStructure() {
-  $(".ClasseContraintes").removeClass('readonly');
-  $(".ClasseContraintes").unbind('mousedown', preventDefaultBehavior);
-  $(".addContrainteBouton").show();
+function checkStructure() {
+  var nbEleve = 0;
+  nbClasse = $(".headerClasse").length; 
+  for (let i = 1; i<nbClasse+1 ; i++) {
+    nbEleve += parseInt($(`#countclassecstr${i}`).val());
+  }
+  if ($('.eleve').length/2 !== nbEleve) {
+    $('#pbStructure').text('problème avec la structure');
+    return true
+  }
 }
+
  
 
 //*****************************************************

@@ -52,6 +52,10 @@
     width: 20px;
     height: 20px;
   }
+  .image_cadenas {
+    width: 15px;
+    height: 15px; 
+  }
   .constraintnumber{
     display: inline;
     width: 30px;
