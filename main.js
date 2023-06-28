@@ -59,7 +59,7 @@ function createClasse() {  //création des colonnes pour les classes
   for (i=2; i<constraintchoice.length ; i++) {
     optionList = '';
     for (j=0 ; j < constraintchoice[i].listvalues.length ; j++) {
-      if (constraintchoice[i].columnName !== 'sexe' && constraintchoice[i].columnName !== 'oldclasse' && constraintchoice[i].columnName !== 'info' && constraintchoice[i].columnName !== 'plans' && constraintchoice[i].columnName !== 'suivi' && constraintchoice[i].columnName !== 'resultats'  && constraintchoice[i].columnName !== 'attitude' && constraintchoice[i].listvalues[j]) {
+      if (constraintchoice[i].columnName !== 'sexe' && constraintchoice[i].columnName !== 'oldclasse' && constraintchoice[i].columnName !== 'info' && constraintchoice[i].columnName !== 'plans' && constraintchoice[i].columnName !== 'suivi' && constraintchoice[i].columnName !== 'resultats' && constraintchoice[i].columnName !== 'note' && constraintchoice[i].columnName !== 'attitude' && constraintchoice[i].listvalues[j]) {
         optionList += `<option value="${constraintchoice[i].columnName + '¤' +constraintchoice[i].listvalues[j]}">${constraintchoice[i].columnName +' : '+constraintchoice[i].listvalues[j]}</option>`;
         optionsList.push(constraintchoice[i].listvalues[j]);
       }
@@ -70,9 +70,10 @@ function createClasse() {  //création des colonnes pour les classes
   constraintChoiceSelect = selectList;
   i = $(".headerClasse").length + 1;
   divclasses = divclasses + 
-    '<div id="headclasse'+i+'" class="headerClasse"><image src="plus.png" id="" onclick="ajouterEleve('+i+')" class="addButton"/>' +
-    '<image src="tri.png" id="" onclick="trierEleves('+i+')" class="triButton"/>Classe'+ i +
-    ' <div id="message'+i+'" class="message"></div><div class="countdiv">( <span id="countclasse'+i+'" class="countclasse">0</span> élèves) / <input type="number" class="cstr" id="countclassecstr'+i+'" ></div><div id="pcgirls'+i+'" class="pcg"></div><div class="contraintes">'+selectList+'</div>'+
+    '<div id="headclasse'+i+'" class="headerClasse"><image src="plus.PNG" id="" onclick="ajouterEleve('+i+')" class="addButton"/>' +
+    '<image src="tri.PNG" id="" onclick="trierEleves('+i+')" class="triButton"/>'+
+    '<image src="triNote.PNG" id="" onclick="trierNotes('+i+')" class="triButton"/>Classe'+ i +
+    ' <div id="message'+i+'" class="message"></div><div class="countdiv">( <span id="countclasse'+i+'" class="countclasse">0</span> élèves) / <input type="number" class="cstr" id="countclassecstr'+i+'" ></div><div id="pcgirls'+i+'" class="pcg"></div><div id="moy'+i+'" class="moy"></div><div class="contraintes">'+selectList+'</div>'+
     ' <div><span class="myButton addContrainteBouton" onclick="addSelectList('+i+')"> Ajouter une contrainte de classe </span></div></div>';
     // on récupère les entetes du csv importé pour proposer des elects : 1 premier entete de colonne, 2 une des valeurs presente, input nombre voulu.
 	$("#allClasses").append('<div>' + divclasses + '<div id="classe'+i+'" ondrop="drop(event)" ondragover="allowDrop(event)" class="classe"></div>  </div>');
@@ -120,35 +121,37 @@ function createEleveList() { 	//Création de la banque d'élèves.
     spanoption = '';
     planEleve = '';
     for (j=2; j<infos.length ; j++) {
-      if (infos[j] !== 'info' && infos[j] !== 'plans') {
+      if (infos[j] !== 'info' && infos[j] !== 'plans' && infos[j] !== 'note') {
         classEleve = classEleve + ' ' + eleveList.data[i][infos[j]]
       }
-      spanoption += `<span class="${infos[j]}eleve hidden">${eleveList.data[i][infos[j]]}</span> ` 
+      if (infos[j] !== 'note') {
+        spanoption += `<span class="${infos[j]}eleve hidden">${eleveList.data[i][infos[j]]}</span> ` 
+      }
       if (infos[j] === 'plans') {
         if (eleveList.data[i][infos[j]].substr(0,3) === 'SEG') {
-          planEleve = `<image src="SEGPA.png" class="SEGPA" title="${eleveList.data[i][infos[j]]}">` 
+          planEleve = `<image src="SEGPA.PNG" class="SEGPA" title="${eleveList.data[i][infos[j]]}">` 
           classEleve = classEleve + ' ' + 'SEGPA'         
         }
         if (eleveList.data[i][infos[j]].substr(0,3) === 'PAI') {
-          planEleve = `<image src="PAI.png" class="PAI" title="${eleveList.data[i][infos[j]]}">`  
+          planEleve = `<image src="PAI.PNG" class="PAI" title="${eleveList.data[i][infos[j]]}">`  
           classEleve = classEleve + ' ' + 'PAI'
         }
         if (eleveList.data[i][infos[j]].substr(0,3) === 'PPR') {
-          planEleve = `<image src="PPRE.png" class="PPRE" title="${eleveList.data[i][infos[j]]}">`
+          planEleve = `<image src="PPRE.PNG" class="PPRE" title="${eleveList.data[i][infos[j]]}">`
           classEleve = classEleve + ' ' + 'PPRE'          
         }
         if (eleveList.data[i][infos[j]].substr(0,3) === 'PPS') {
-          planEleve = `<image src="PPS.png" class="PPS" title="${eleveList.data[i][infos[j]]}">`  
+          planEleve = `<image src="PPS.PNG" class="PPS" title="${eleveList.data[i][infos[j]]}">`  
           classEleve = classEleve + ' ' + 'PPS'
         }
         if (eleveList.data[i][infos[j]].substr(0,3) === 'PAP') {
-          planEleve = `<image src="PAP.png" class="PAP" title="${eleveList.data[i][infos[j]]}">`  
+          planEleve = `<image src="PAP.PNG" class="PAP" title="${eleveList.data[i][infos[j]]}">`  
           classEleve = classEleve + ' ' + 'PAP'
         }
       }
     }
     
-    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'" >'+planEleve+'<image src="lier.png" class="img_eleve lier_eleve"><image src="separer.png" class="img_eleve separer_eleve"><span class="nom_prenom"  title="'+classEleve+'">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
+    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-note="'+eleveList.data[i].note+'" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'" >'+planEleve+'<image src="lier.PNG" class="img_eleve lier_eleve"><image src="separer.PNG" class="img_eleve separer_eleve"><span class="nom_prenom"  title="'+classEleve+'">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span class="note">'+eleveList.data[i].note+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
 	  if (AllOldClasseList.indexOf(eleveList.data[i].oldclasse)<0) {
       AllOldClasseList.push(eleveList.data[i].oldclasse)
     }  
@@ -230,7 +233,7 @@ function validerStructure() {
     }
     if (ClassesForStudent.length == 1) {
       selectEleve($($('.eleve')[i]))
-      $($('.eleve')[i]).append('<image src="cadenas.png" id="" title="option imposant cette classe" class="image_cadenas" />')
+      $($('.eleve')[i]).append('<image src="cadenas.PNG" id="" title="option imposant cette classe" class="image_cadenas" />')
       ajouterEleve(ClassesForStudent[0])
     }
   }
@@ -246,7 +249,7 @@ function checkStructure() {
   for (let i = 1; i<nbClasse+1 ; i++) {
     nbEleve += parseInt($(`#countclassecstr${i}`).val());
   }
-  if ($('.eleve').length/2 !== nbEleve) {
+  if ($('.eleve').length/2 !== nbEleve && $('.eleve').length !== nbEleve) {
     $('#pbStructure').text('problème avec la structure');
     return true
   } else {
@@ -434,8 +437,23 @@ function trierEleves(numclasse) {
   eleveIdList.sort()
   for (i = 0; i< eleveIdList.length;i++) {
     $("#classe"+numclasse).append($('#'+eleveIdList[i])); 
+  }  
+}
+
+function trierNotes(numclasse) {
+  let eleveList = $('#classe'+numclasse+' .eleve');
+  let eleveNoteList = [];
+  let i;
+  for (i = 0; i< eleveList.length;i++) {
+    eleveNoteList.push($(eleveList[i]));
   }
-  
+  eleveNoteList.sort(function(a,b){
+    return parseFloat(b.attr('data-note')) - parseFloat(a.attr('data-note'))
+    
+    })
+  for (i = 0; i< eleveNoteList.length;i++) {
+    $("#classe"+numclasse).append(eleveNoteList[i]); 
+  }  
 }
 
 function interactionEleves(type) {
@@ -598,7 +616,7 @@ function toggleCount() {
 
 //**********maj des compteurs, contrôle des contraintes******
 function majcounter() {
-	var i, eleveList, elevenumber, optionList;
+	var i, eleveList, elevenumber, optionList, sommeNote, listeNotes;
 	for (i=1 ; i<7 ; i++) {
     // pourcentage de filles
     eleveList = $('#classe'+i).children();
@@ -619,7 +637,7 @@ function majcounter() {
     }
 		
 		$('#countclasse'+i).text(elevenumber);
-    //on parcourt les différentes options, pour chaque option on compte.
+    //on parcourt les différentes options, pour chaque option on compte .
     for (j=0; j<optionsList.length ; j++) {
       eleveList = $('#classe'+i+' .'+optionsList[j]);
       elevenumber = eleveList.length;
@@ -632,6 +650,14 @@ function majcounter() {
         $('#div'+optionsList[j]+i).addClass('countKO');
       }
     }
+    //on fait la moyenne de chaque classe
+    sommeNote = 0;
+    listeNotes = $('#classe'+i+' .note');
+    for (j=0; j<listeNotes.length ; j++) {
+        sommeNote += parseFloat(listeNotes[j].innerHTML);  
+    }
+    var moyenneClasse = sommeNote/listeNotes.length;
+    $('#moy'+i).text('moyenne : ' + moyenneClasse.toFixed(1));
 	}
 }
 
