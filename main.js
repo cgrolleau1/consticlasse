@@ -150,8 +150,8 @@ function createEleveList() { 	//Création de la banque d'élèves.
         }
       }
     }
-    
-    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-note="'+eleveList.data[i].note+'" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'" >'+planEleve+'<image src="lier.PNG" class="img_eleve lier_eleve"><image src="separer.PNG" class="img_eleve separer_eleve"><span class="nom_prenom"  title="'+classEleve+'">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span class="note">'+eleveList.data[i].note+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
+    let noteEleve = eleveList.data[i].note ? eleveList.data[i].note :"";
+    divEleves = divEleves + '<div ondragstart="drag(event)" onclick="selectEleve($(this))" draggable="true" data-note="'+eleveList.data[i].note+'" data-oldClassse="'+eleveList.data[i].oldclasse+'" id="'+eleveList.data[i].nom+'_'+eleveList.data[i].prenom+'" class="'+classEleve+'" >'+planEleve+'<image src="lier.PNG" class="img_eleve lier_eleve"><image src="separer.PNG" class="img_eleve separer_eleve"><span class="nom_prenom"  title="'+classEleve+'">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom+'</span><span class="nom_init">'+eleveList.data[i].nom+' '+eleveList.data[i].prenom[0]+'</span><span class="oldclass"> ('+eleveList.data[i].oldclasse+') </span><span hidden class="nomeleve">'+eleveList.data[i].nom+'</span><span hidden class="prenomeleve">'+eleveList.data[i].prenom+'</span><span class="note">'+noteEleve+'</span><span hidden class="sexeleve">'+eleveList.data[i].sexe+'</span>'+spanoption+'</div>';
 	  if (AllOldClasseList.indexOf(eleveList.data[i].oldclasse)<0) {
       AllOldClasseList.push(eleveList.data[i].oldclasse)
     }  
@@ -657,7 +657,8 @@ function majcounter() {
         sommeNote += parseFloat(listeNotes[j].innerHTML);  
     }
     var moyenneClasse = sommeNote/listeNotes.length;
-    $('#moy'+i).text('moyenne : ' + moyenneClasse.toFixed(1));
+    if (isNaN(moyenneClasse)) {} else {
+    $('#moy'+i).text('moyenne : ' + moyenneClasse.toFixed(1));}
 	}
 }
 
